@@ -42,7 +42,7 @@ namespace ObjectiveManagement.Domain.Implementations
         public async Task<Guid> Update(ObjectiveModel objectiveModel)
         {
             var entity = _mapper.Map<ObjectiveEntity>(objectiveModel);
-
+            if (entity == null) return Guid.Empty;
             await _dbRepository.UpdateAsync(entity);
             await _dbRepository.SaveChangesAsync();
 
@@ -65,7 +65,7 @@ namespace ObjectiveManagement.Domain.Implementations
             var entitiesCollection = _dbRepository
                 .Get<ObjectiveEntity>()
                 .Include(s=>s.SubObjectives)
-                .ToList()
+                .AsEnumerable()
                 .Where(p=>p.ParentId==null)
                 .ToList();
             var result = _mapper.Map<List<ObjectiveModel>>(entitiesCollection);
@@ -79,7 +79,6 @@ namespace ObjectiveManagement.Domain.Implementations
 
         public async Task<bool> Delete(Guid id)
         {
-            //Или сделать проверку в репозитории?
             var entity = _dbRepository
                 .Get<ObjectiveEntity>()
                 .Include(s=>s.SubObjectives)

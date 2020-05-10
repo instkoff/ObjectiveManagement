@@ -8,11 +8,11 @@ using ObjectiveManagement.DataAccess.Entities;
 
 namespace ObjectiveManagement.DataAccess
 {
-    public class MsSqlRepository : IDbRepository
+    public class EfRepository : IDbRepository
     {
         private readonly DataContext _context;
 
-        public MsSqlRepository(DataContext context)
+        public EfRepository(DataContext context)
         {
             _context = context;
         }

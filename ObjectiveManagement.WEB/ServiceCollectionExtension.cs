@@ -17,8 +17,8 @@ namespace ObjectiveManagement.Web
                 builder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
             services
-                .AddScoped<IDbRepository, MsSqlRepository>(provider =>
-                    new MsSqlRepository(provider.GetRequiredService<DataContext>()));
+                .AddScoped<IDbRepository, EfRepository>(provider =>
+                    new EfRepository(provider.GetRequiredService<DataContext>()));
             return services;
         }
 

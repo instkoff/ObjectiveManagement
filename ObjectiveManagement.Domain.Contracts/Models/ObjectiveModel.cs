@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace ObjectiveManagement.Domain.Contracts.Models
 {
@@ -14,12 +16,10 @@ namespace ObjectiveManagement.Domain.Contracts.Models
         public int FactTime { get; set; }
         public DateTime CompletedTime { get; set; }
         public Guid? ParentId { get; set; }
-        public bool IsActive { get; set; }
-        public ICollection<ObjectiveModel> SubObjectives { get; set; }
+        public List<ObjectiveModel> SubObjectives { get; set; }
 
         public ObjectiveModel()
         {
-            IsActive = true;
             ParentId = null;
         }
     }
