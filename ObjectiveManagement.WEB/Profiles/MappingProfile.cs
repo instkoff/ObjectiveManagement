@@ -11,8 +11,6 @@ namespace ObjectiveManagement.Web.Profiles
         {
             CreateMap<ObjectiveEntity, ObjectiveModel>();
             CreateMap<ObjectiveModel, ObjectiveEntity>();
-            CreateMap<List<ObjectiveEntity>, List<ObjectiveModel>>();
-            CreateMap<List<ObjectiveModel>,List<ObjectiveEntity>>();
         }
     }
 }

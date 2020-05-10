@@ -11,6 +11,6 @@ namespace ObjectiveManagement.Domain.Contracts
         Task<Guid> Update(ObjectiveModel objectiveModel);
         ObjectiveModel Get(Guid id);
         List<ObjectiveModel> GetAllActive();
-        Task Delete(Guid id);
+        Task<bool> Delete(Guid id);
     }
 }

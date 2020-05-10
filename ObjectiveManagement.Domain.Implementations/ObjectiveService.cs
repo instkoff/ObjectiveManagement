@@ -24,11 +24,9 @@ namespace ObjectiveManagement.Domain.Implementations
         public async Task<Guid> Create(ObjectiveModel objectiveModel)
         {
             var entity = _mapper.Map<ObjectiveEntity>(objectiveModel);
-            if (objectiveModel.ParentId == Guid.Empty)
+            if (objectiveModel.ParentId == null || objectiveModel.ParentId == Guid.Empty)
             {
-                entity.ParentId = null;
                 await _dbRepository.AddAsync(entity);
-                await _dbRepository.SaveChangesAsync();
             }
             else
             {
@@ -36,9 +34,8 @@ namespace ObjectiveManagement.Domain.Implementations
                     .Get<ObjectiveEntity>(x => x.Id == objectiveModel.ParentId)
                     .Include(x => x.SubObjectives).FirstOrDefault();
                 parentEntity?.SubObjectives.Add(entity);
-                await _dbRepository.SaveChangesAsync();
-
             }
+            await _dbRepository.SaveChangesAsync();
             return entity.Id;
         }
 
@@ -54,14 +51,23 @@ namespace ObjectiveManagement.Domain.Implementations
 
         public ObjectiveModel Get(Guid id)
         {
-            var entity = _dbRepository.Get<ObjectiveEntity>().FirstOrDefault(x => x.Id == id);
+            var entity = _dbRepository
+                .Get<ObjectiveEntity>()
+                .Include(s=>s.SubObjectives)
+                .ToList()
+                .FirstOrDefault(x => x.Id == id);
             var model = _mapper.Map<ObjectiveModel>(entity);
             return model;
         }
 
         public List<ObjectiveModel> GetAllActive()
         {
-            var entitiesCollection = _dbRepository.Get<ObjectiveEntity>();
+            var entitiesCollection = _dbRepository
+                .Get<ObjectiveEntity>()
+                .Include(s=>s.SubObjectives)
+                .ToList()
+                .Where(p=>p.ParentId==null)
+                .ToList();
             var result = _mapper.Map<List<ObjectiveModel>>(entitiesCollection);
             if (result == null || !result.Any())
             {
@@ -71,10 +77,17 @@ namespace ObjectiveManagement.Domain.Implementations
             return result;
         }
 
-        public async Task Delete(Guid id)
+        public async Task<bool> Delete(Guid id)
         {
+            //Или сделать проверку в репозитории?
+            var entity = _dbRepository
+                .Get<ObjectiveEntity>()
+                .Include(s=>s.SubObjectives)
+                .FirstOrDefault(x => x.Id == id);
+            if ((entity != null && entity.SubObjectives.Any()) || entity == null) return false;
             await _dbRepository.DeleteAsync<ObjectiveEntity>(id);
             await _dbRepository.SaveChangesAsync();
+            return true;
         }
     }
 }

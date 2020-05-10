@@ -38,7 +38,20 @@ namespace ObjectiveManagement.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<ObjectiveModel>> GetAllActiveObjectives()
+        public IActionResult GetAllActiveObjectives()
+        {
+            var objectiveModelList = _objectiveService.GetAllActive();
+
+            if (objectiveModelList == null)
+            {
+                return BadRequest("Objectives not found.");
+            }
+
+            return View(objectiveModelList);
+        }
+
+        [HttpGet("api/get_all")]
+        public ActionResult<List<ObjectiveModel>> GetAllActiveObjectivesApi()
         {
             var objectiveModelList = _objectiveService.GetAllActive();
 
@@ -62,9 +75,10 @@ namespace ObjectiveManagement.Web.Controllers
             return Ok(result);
         }
         [HttpDelete("id")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult<bool>> Delete(Guid id)
         {
-            await _objectiveService.Delete(id);
+            var result = await _objectiveService.Delete(id);
+            if (!result) return BadRequest("Can't delete objective");
             return Ok();
         }
     }

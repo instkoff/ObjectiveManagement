@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObjectiveManagement.Web", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObjectiveManagement.DataAccess", "ObjectiveManagement.DataAccess\ObjectiveManagement.DataAccess.csproj", "{0AF3C37F-A98C-4C90-8F88-46F8E7F079BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectiveManagement.Domain.Contracts", "ObjectiveManagement.Domain.Contracts\ObjectiveManagement.Domain.Contracts.csproj", "{59528DB6-B52D-4AFD-815F-9C864CD37ACD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObjectiveManagement.Domain.Contracts", "ObjectiveManagement.Domain.Contracts\ObjectiveManagement.Domain.Contracts.csproj", "{59528DB6-B52D-4AFD-815F-9C864CD37ACD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectiveManagement.Domain.Implementations", "ObjectiveManagement.Domain.Implementations\ObjectiveManagement.Domain.Implementations.csproj", "{415D8581-227F-4EC0-9A9B-35A88A33B1C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObjectiveManagement.Domain.Implementations", "ObjectiveManagement.Domain.Implementations\ObjectiveManagement.Domain.Implementations.csproj", "{415D8581-227F-4EC0-9A9B-35A88A33B1C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

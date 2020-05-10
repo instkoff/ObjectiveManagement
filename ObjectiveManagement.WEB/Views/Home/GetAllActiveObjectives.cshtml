@@ -1,0 +1,11 @@
+﻿@using ObjectiveManagement.Domain.Contracts.Models
+@model List<ObjectiveModel>
+@{
+    ViewBag.Title = "Objectives";
+}
+
+<h3>В списке @Model.Count элемента</h3>
+@foreach (ObjectiveModel objective in Model)
+{
+    <p>@objective.Id</p>
+}

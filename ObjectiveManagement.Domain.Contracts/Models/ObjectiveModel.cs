@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ObjectiveManagement.Domain.Contracts.Models
 {
@@ -13,6 +14,13 @@ namespace ObjectiveManagement.Domain.Contracts.Models
         public int FactTime { get; set; }
         public DateTime CompletedTime { get; set; }
         public Guid? ParentId { get; set; }
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; }
+        public ICollection<ObjectiveModel> SubObjectives { get; set; }
+
+        public ObjectiveModel()
+        {
+            IsActive = true;
+            ParentId = null;
+        }
     }
 }
