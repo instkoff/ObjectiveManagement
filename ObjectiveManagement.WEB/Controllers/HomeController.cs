@@ -46,7 +46,6 @@ namespace ObjectiveManagement.Web.Controllers
             {
                 return BadRequest("Objectives not found.");
             }
-
             return View(objectiveModelList);
         }
 
