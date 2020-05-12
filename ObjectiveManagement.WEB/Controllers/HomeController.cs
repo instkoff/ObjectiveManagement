@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using ObjectiveManagement.Domain.Contracts;
+using ObjectiveManagement.Domain.Contracts.Exceptions;
 using ObjectiveManagement.Domain.Contracts.Models;
 
 namespace ObjectiveManagement.Web.Controllers
@@ -11,10 +13,12 @@ namespace ObjectiveManagement.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IObjectiveService _objectiveService;
+        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(IObjectiveService objectiveService)
+        public HomeController(IObjectiveService objectiveService, ILogger<HomeController> logger)
         {
             _objectiveService = objectiveService;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -37,16 +41,22 @@ namespace ObjectiveManagement.Web.Controllers
             return Ok(model);
         }
 
-        [HttpGet]
-        public IActionResult GetAllActiveObjectives()
+        [HttpGet("menu")]
+        public ActionResult GetMenuItems()
         {
-            var objectiveModelList = _objectiveService.GetAllActive();
+            var objectiveModelList = _objectiveService.GetMenuItemsList();
 
             if (objectiveModelList == null)
             {
                 return BadRequest("Objectives not found.");
             }
-            return View(objectiveModelList);
+            return Ok(objectiveModelList);
+        }
+
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View();
         }
 
         [HttpGet("api/get_all")]
@@ -77,8 +87,10 @@ namespace ObjectiveManagement.Web.Controllers
         public async Task<ActionResult<bool>> Delete(Guid id)
         {
             var result = await _objectiveService.Delete(id);
-            if (!result) return BadRequest("Can't delete objective");
-            return Ok();
+            if (result) return Ok();
+            _logger.LogError("Ошибка при удалении задачи.");
+            throw new ObjectiveNotFoundException("Задача не найдена или у задачи есть подзадачи.");
+
         }
     }
 }

@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using ObjectiveManagement.Domain.Contracts;
 using ObjectiveManagement.Domain.Implementations;
 using ObjectiveManagement.Web;
+using Serilog;
 
 namespace ObjectiveManagement.WEB
 {
@@ -15,6 +17,10 @@ namespace ObjectiveManagement.WEB
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom
+                .Configuration(configuration)
+                .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
@@ -27,15 +33,18 @@ namespace ObjectiveManagement.WEB
             services.AddSwagger();
             services.AddDatabase(Configuration);
             services.AddTransient<IObjectiveService, ObjectiveService>();
+            services.AddLogging();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            loggerFactory.AddSerilog();
 
             app.UseStaticFiles();
 

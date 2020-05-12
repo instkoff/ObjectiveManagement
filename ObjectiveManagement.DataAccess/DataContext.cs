@@ -9,11 +9,11 @@ namespace ObjectiveManagement.DataAccess
     public class DataContext : DbContext
     {
         //todo Не забыть отключить логгер
-        public static readonly ILoggerFactory _loggerFactory =
-            LoggerFactory.Create(builder => { builder.AddConsole(); });
+        private readonly ILoggerFactory _loggerFactory;
         public DbSet<ObjectiveEntity> Objectives { get; set; }
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        public DataContext(DbContextOptions<DataContext> options, ILoggerFactory loggerFactory) : base(options)
         {
+            _loggerFactory = loggerFactory;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -54,7 +54,7 @@ namespace ObjectiveManagement.Domain.Implementations
             var entity = _dbRepository
                 .Get<ObjectiveEntity>()
                 .Include(s=>s.SubObjectives)
-                .ToList()
+                .AsEnumerable()
                 .FirstOrDefault(x => x.Id == id);
             var model = _mapper.Map<ObjectiveModel>(entity);
             return model;
@@ -73,7 +73,17 @@ namespace ObjectiveManagement.Domain.Implementations
             {
                 return null;
             }
-
+            return result;
+        }
+        public List<MenuItemModel> GetMenuItemsList()
+        {
+            var entitiesCollection = _dbRepository
+                .Get<ObjectiveEntity>().ToList();
+            var result = _mapper.Map<List<MenuItemModel>>(entitiesCollection);
+            if (result == null || !result.Any())
+            {
+                return null;
+            }
             return result;
         }
 

@@ -21,5 +21,6 @@ namespace ObjectiveManagement.DataAccess.Entities
         {
             SubObjectives = new List<ObjectiveEntity>();
         }
+
     }
 }
