@@ -16,7 +16,8 @@ namespace ObjectiveManagement.Web.Profiles
             CreateMap<ObjectiveEntity, MenuItemModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.parent, opt => opt.MapFrom(src => src.ParentId == null ? "#" : src.ParentId.ToString()))
+                .ForMember(dest=>dest.Children, opt=>opt.MapFrom(src=>src.SubObjectives))
+                //.ForMember(dest => dest.parent, opt => opt.MapFrom(src => src.ParentId == null ? "#" : src.ParentId.ToString()))
                 .AfterMap((src,dst)=>
                 {
                     dst.Icon = "/img/task.png";

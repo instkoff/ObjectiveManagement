@@ -78,7 +78,11 @@ namespace ObjectiveManagement.Domain.Implementations
         public List<MenuItemModel> GetMenuItemsList()
         {
             var entitiesCollection = _dbRepository
-                .Get<ObjectiveEntity>().ToList();
+                .Get<ObjectiveEntity>()
+                .Include(s => s.SubObjectives)
+                .AsEnumerable()
+                .Where(p => p.ParentId == null)
+                .ToList();
             var result = _mapper.Map<List<MenuItemModel>>(entitiesCollection);
             if (result == null || !result.Any())
             {
