@@ -1,4 +1,6 @@
-﻿namespace ObjectiveManagement.Domain.Contracts.Models
+﻿using System.Collections.Generic;
+
+namespace ObjectiveManagement.Domain.Contracts.Models
 {
     public class MenuItemModel
     {
@@ -11,6 +13,7 @@
         public string Text { get; set; }
         public string Icon { get; set; }
         public Link a_attr { get; }
+        public bool Children { get; set; }
 
         public class Link
         {

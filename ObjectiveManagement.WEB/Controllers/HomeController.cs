@@ -41,18 +41,6 @@ namespace ObjectiveManagement.Web.Controllers
             return Ok(model);
         }
 
-        [HttpGet("menu")]
-        public ActionResult GetMenuItems()
-        {
-            var objectiveModelList = _objectiveService.GetMenuItemsList();
-
-            if (objectiveModelList == null)
-            {
-                return BadRequest("Objectives not found.");
-            }
-            return Ok(objectiveModelList);
-        }
-
         [HttpGet]
         public ActionResult Index()
         {

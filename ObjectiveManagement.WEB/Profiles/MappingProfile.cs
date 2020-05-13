@@ -20,7 +20,9 @@ namespace ObjectiveManagement.Web.Profiles
                 .AfterMap((src,dst)=>
                 {
                     dst.Icon = "/img/task.png";
-                    dst.a_attr.Href = "id?id=" + dst.Id;
+                    dst.a_attr.Href = "/api/Home/id?id=" + dst.Id;
+                    if (src.SubObjectives.Any()) 
+                        dst.Children = true;
                 });
         }
         private class CustomResolver : IValueResolver<ObjectiveEntity, ObjectiveModel, int>

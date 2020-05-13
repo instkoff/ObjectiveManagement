@@ -75,18 +75,6 @@ namespace ObjectiveManagement.Domain.Implementations
             }
             return result;
         }
-        public List<MenuItemModel> GetMenuItemsList()
-        {
-            var entitiesCollection = _dbRepository
-                .Get<ObjectiveEntity>().ToList();
-            var result = _mapper.Map<List<MenuItemModel>>(entitiesCollection);
-            if (result == null || !result.Any())
-            {
-                return null;
-            }
-            return result;
-        }
-
         public async Task<bool> Delete(Guid id)
         {
             var entity = _dbRepository

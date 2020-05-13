@@ -33,6 +33,7 @@ namespace ObjectiveManagement.WEB
             services.AddSwagger();
             services.AddDatabase(Configuration);
             services.AddTransient<IObjectiveService, ObjectiveService>();
+            services.AddTransient<IMenuService, MenuService>();
             services.AddLogging();
         }
 

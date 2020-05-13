@@ -12,6 +12,5 @@ namespace ObjectiveManagement.Domain.Contracts
         ObjectiveModel Get(Guid id);
         List<ObjectiveModel> GetAllActive();
         Task<bool> Delete(Guid id);
-        List<MenuItemModel> GetMenuItemsList();
     }
 }

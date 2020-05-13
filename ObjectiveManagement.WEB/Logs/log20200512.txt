@@ -54,3 +54,12 @@ ObjectiveManagement.Domain.Contracts.Exceptions.ObjectiveNotFoundException: За
 2020-05-12 18:32:11.753 +07:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
 2020-05-12 18:35:40.545 +07:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
 2020-05-12 18:36:55.729 +07:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
+2020-05-12 20:11:01.019 +07:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
+2020-05-12 20:14:55.882 +07:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
+2020-05-12 20:15:20.514 +07:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
+2020-05-12 20:15:21.061 +07:00 [ERR] Failed executing DbCommand (20ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [o].[Id], [o].[CompletedTime], [o].[CreatedTime], [o].[Description], [o].[EstimateTime], [o].[FactTime], [o].[IsActive], [o].[Name], [o].[ObjectiveStatus], [o].[ParentId], [o].[Performers], [o0].[Id], [o0].[CompletedTime], [o0].[CreatedTime], [o0].[Description], [o0].[EstimateTime], [o0].[FactTime], [o0].[IsActive], [o0].[Name], [o0].[ObjectiveStatus], [o0].[ParentId], [o0].[Performers]
+FROM [Objectives] AS [o]
+LEFT JOIN [Objectives] AS [o0] ON [o].[Id] = [o0].[ParentId]
+WHERE [o].[IsActive] = CAST(1 AS bit)
+ORDER BY [o].[Id], [o0].[Id]
