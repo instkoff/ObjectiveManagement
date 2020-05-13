@@ -10,32 +10,33 @@ namespace ObjectiveManagement.Web.Profiles
         public MappingProfile()
         {
             CreateMap<ObjectiveEntity, ObjectiveModel>()
-                .ForMember(dest=>dest.TotalEstimateTime, opt=>opt.MapFrom<CustomResolver>());
+                .ForMember(dest=>dest.TotalEstimateTime, opt=>opt.MapFrom(src=>src.EstimateTime))
+                .ForMember(dest=>dest.CreatedTime, opt=>opt.MapFrom(src=>src.CreatedTime.ToString("yyyy-MM-ddThh:mm")));
             CreateMap<ObjectiveModel, ObjectiveEntity>()
                 .ForMember(dest=>dest.EstimateTime, opt=>opt.MapFrom(src=>src.TotalEstimateTime));
             CreateMap<ObjectiveEntity, MenuItemModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.parent, opt => opt.MapFrom(src => src.ParentId == null ? "#" : src.ParentId.ToString()))
-                .AfterMap((src,dst)=>
+                .AfterMap((src,dest)=>
                 {
-                    dst.Icon = "/img/task.png";
-                    dst.a_attr.Href = "/api/Home/id?id=" + dst.Id;
+                    dest.Icon = "/img/task.png";
+                    dest.a_attr.Href = "/api/Home/id?id=" + dest.Id;
                     if (src.SubObjectives.Any()) 
-                        dst.Children = true;
+                        dest.Children = true;
                 });
         }
-        private class CustomResolver : IValueResolver<ObjectiveEntity, ObjectiveModel, int>
-        {
-            public int Resolve(ObjectiveEntity source, ObjectiveModel destination, int totalTime, ResolutionContext context)
-            {
-                return CalculateEstimateTime(source);
-            }
+        //private class CustomResolver : IValueResolver<ObjectiveEntity, ObjectiveModel, int>
+        //{
+        //    public int Resolve(ObjectiveEntity source, ObjectiveModel destination, int totalTime, ResolutionContext context)
+        //    {
+        //        return CalculateEstimateTime(source);
+        //    }
 
-            private int CalculateEstimateTime(ObjectiveEntity data)
-            {
-                return data.EstimateTime + data.SubObjectives.Sum(CalculateEstimateTime);
-            }
-        }
+        //    private int CalculateEstimateTime(ObjectiveEntity data)
+        //    {
+        //        return data.EstimateTime + data.SubObjectives.Sum(CalculateEstimateTime);
+        //    }
+        //}
     }
 }

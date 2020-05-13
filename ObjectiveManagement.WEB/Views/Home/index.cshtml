@@ -1,90 +1,26 @@
-﻿<!DOCTYPE html>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Objective management</title>
-    <link href="~/css/style.css" rel="stylesheet" />
+﻿<head>
     <link href="~/lib/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jstree/dist/jstree.js"></script>
 </head>
 
-<body>
-    <header>
-        <h3>Objective Management System</h3>
-    </header>
-    <section class="main">
-        <div class="tree-view box">
-        </div>
-        <div class="objective-details box">
-            <div class="title">Детали задачи:</div>
-            <form class="content-form" action="" method="post">
-                <div class="objective-details-item">
-                    <input type="text" class="objective-details-input" placeholder="Наименование задачи" />
-                </div>
-                <div class="objective-details-item">
-                    <textarea class="objective-details-input" placeholder="Описание задачи" cols="30" rows="10"></textarea>
-                </div>
-                <div class="objective-details-item">
-                    <textarea class="objective-details-input" placeholder="Список исполнителей" cols="10" rows="10"></textarea>
-                </div>
-                <div class="objective-details-item">
-                    <span class="date-time">
-                        <label for="createTime">Дата создания:</label>
-                        <input class="objective-details-input date-input" type="datetime-local" id="createTime" />
-                    </span>
-                    <span class="date-time">
-                        <label for="completedTime">Дата завершения:</label>
-                        <input class="objective-details-input date-input" type="datetime-local" id="completedTime" />
-                    </span>
-                </div>
-                <div class="objective-details-item">
-                    <span>
-                        <input class="objective-details-input" type="number" placeholder="Плановая трудоёмкость задачи" />
-                    </span>
-                    <span>
-                        <input class="objective-details-input" type="number" placeholder="Фактическое время выполнения" />
-                    </span>
+<div class="tree-view box">
+</div>
 
-                </div>
-                <div class="objective-details-item">
-                    <div class="status-radio">
-                        <div class="title">Статус задачи:</div>
-                        <input type="radio" id="AssignedChoice" value="0">
-                        <label for="AssignedChoice">Назначена</label>
-                        <input type="radio" id="InProgressChoice" value="1">
-                        <label for="InProgressChoice">Выполняется</label>
-                        <input type="radio" id="SuspendedChoice" value="2">
-                        <label for="SuspendedChoice">Приостановлена</label>
-                        <input type="radio" id="CompletedChoice" value="3">
-                        <label for="CompletedChoice">Завершена</label>
-                    </div>
-                </div>
+<div class="objective-details box">
+    <div class="title">Детали задачи:</div>
 
-                <div class="actions">
-                    <button class="button add-objective">Добавить задачу</button>
-                    <button class="button add-subobjective" hidden>Добавить подзадачу</button>
-                    <button class="button delete-objective" hidden>Удалить задачу</button>
-                    <button class="button save-objective" hidden>Сохранить задачу</button>
-                </div>
-
-            </form>
-
-        </div>
-    </section>
-<footer>
-</footer>
+</div>
 <script type="text/javascript">
     $('.tree-view').jstree({
         //"plugins": ["search", "wholerow"],
-        'core' : {
-            'data' : {
+        'core': {
+            'data': {
                 'url': function (node) {
                     return node.id === "#" ? "/api/Menu/get_root" : "/api/Menu/get_children/" + node.id;
                 },
                 'data': function (node) {
-                    return { 'id' : node.id };
+                    return { 'id': node.id };
                 }
             },
             "multiple": false,
@@ -93,7 +29,6 @@
         }
     });
     $('.tree-view').on('changed.jstree', function (e, data) {
-        window.open("/api/Home/id?id="+data.node.id);
+        $(".objective-details").load("/api/Home/id?id="+data.node.id);
     });
 </script>
-</body>

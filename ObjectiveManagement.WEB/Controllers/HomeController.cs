@@ -29,7 +29,7 @@ namespace ObjectiveManagement.Web.Controllers
         }
 
         [HttpGet("id")]
-        public ActionResult<ObjectiveModel> Get(Guid id)
+        public IActionResult Get(Guid id)
         {
             var model = _objectiveService.Get(id);
 
@@ -38,7 +38,7 @@ namespace ObjectiveManagement.Web.Controllers
                 return BadRequest("Objective not found");
             }
 
-            return Ok(model);
+            return PartialView("_GetObjective",model);
         }
 
         [HttpGet]

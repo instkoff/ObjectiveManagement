@@ -1,0 +1,52 @@
+﻿@model ObjectiveManagement.Domain.Contracts.Models.ObjectiveModel
+
+<form class="content-form" action="" method="post">
+    <div class="objective-details-item">
+        <input type="text" class="objective-details-input" placeholder="Наименование задачи" value="@Model.Name" />
+    </div>
+    <div class="objective-details-item">
+        <textarea class="objective-details-input" placeholder="Описание задачи" cols="30" rows="10">"@Model.Description"</textarea>
+    </div>
+    <div class="objective-details-item">
+        <textarea class="objective-details-input" placeholder="Список исполнителей" cols="10" rows="10">"@Model.Performers"</textarea>
+    </div>
+    <div class="objective-details-item">
+        <span class="date-time">
+            <label for="createTime">Дата создания:</label>
+            <input class="objective-details-input date-input" type="datetime-local" id="createTime" value="@Model.CreatedTime" />
+        </span>
+        <span class="date-time">
+            <label for="completedTime">Дата завершения:</label>
+            <input class="objective-details-input date-input" type="datetime-local" id="completedTime" value="@Model.CompletedTime" />
+        </span>
+    </div>
+    <div class="objective-details-item">
+        <span class="quantity">
+            <input class="objective-details-input" type="number" placeholder="Плановая трудоёмкость задачи" value="@Model.TotalEstimateTime" />
+        </span>
+        <span>
+            <input class="objective-details-input" type="number" placeholder="Фактическое время выполнения" value="@Model.TotalFactTime" />
+        </span>
+
+    </div>
+    <div class="objective-details-item">
+        <div class="status-radio">
+            <div class="title">Статус задачи:</div>
+            <input type="radio" id="AssignedChoice" value="">
+            <label for="AssignedChoice">Назначена</label>
+            <input type="radio" id="InProgressChoice" value="1">
+            <label for="InProgressChoice">Выполняется</label>
+            <input type="radio" id="SuspendedChoice" value="2">
+            <label for="SuspendedChoice">Приостановлена</label>
+            <input type="radio" id="CompletedChoice" value="3">
+            <label for="CompletedChoice">Завершена</label>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="button add-objective">Добавить задачу</button>
+        <button class="button add-subobjective" hidden>Добавить подзадачу</button>
+        <button class="button delete-objective" hidden>Удалить задачу</button>
+        <button class="button save-objective" hidden>Сохранить задачу</button>
+    </div>
+</form>

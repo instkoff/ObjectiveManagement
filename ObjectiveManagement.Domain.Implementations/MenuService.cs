@@ -14,11 +14,13 @@ namespace ObjectiveManagement.Domain.Implementations
     {
         private readonly IMapper _mapper;
         private readonly IDbRepository _dbRepository;
+        private List<MenuItemModel> _menuItems;
 
         public MenuService(IMapper mapper, IDbRepository dbRepository)
         {
             _mapper = mapper;
             _dbRepository = dbRepository;
+            _menuItems = new List<MenuItemModel>();
         }
 
         public List<MenuItemModel> GetMenuItemsList()
@@ -37,8 +39,8 @@ namespace ObjectiveManagement.Domain.Implementations
         {
             var entitiesCollection = _dbRepository
                 .Get<ObjectiveEntity>()
-                .Include(o=>o.SubObjectives)
                 .Where(o => o.ParentId == null)
+                .Include(o=>o.SubObjectives)
                 .ToList();
             var menuItems = _mapper.Map<List<MenuItemModel>>(entitiesCollection);
             if (menuItems == null || !menuItems.Any())

@@ -54,10 +54,16 @@ namespace ObjectiveManagement.Domain.Implementations
             var entity = _dbRepository
                 .Get<ObjectiveEntity>()
                 .Include(s=>s.SubObjectives)
-                .AsEnumerable()
+                .ToList()
                 .FirstOrDefault(x => x.Id == id);
             var model = _mapper.Map<ObjectiveModel>(entity);
+            model.TotalEstimateTime = CalculateEstimateTime(model);
             return model;
+        }
+
+        private int CalculateEstimateTime(ObjectiveModel data)
+        {
+            return data.TotalEstimateTime + data.SubObjectives.Sum(CalculateEstimateTime);
         }
 
         public List<ObjectiveModel> GetAllActive()

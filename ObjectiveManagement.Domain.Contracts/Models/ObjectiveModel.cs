@@ -12,6 +12,7 @@ namespace ObjectiveManagement.Domain.Contracts.Models
         public int TotalEstimateTime { get; set; }
         public int TotalFactTime { get; set; }
         public ObjectiveStatus ObjectiveStatus { get; set; }
+        public string CreatedTime { get; set; }
         public DateTime CompletedTime { get; set; }
         public Guid? ParentId { get; set; }
         public List<ObjectiveModel> SubObjectives { get; set; }
