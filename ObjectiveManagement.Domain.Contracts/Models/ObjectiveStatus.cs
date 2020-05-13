@@ -3,7 +3,7 @@
     public enum ObjectiveStatus
     {
         Assigned,
-        Running,
+        InProgress,
         Suspended,
         Completed,
         Deleted

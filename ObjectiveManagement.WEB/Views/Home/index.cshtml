@@ -8,12 +8,11 @@
 </div>
 
 <div class="objective-details box">
-    <div class="title">Детали задачи:</div>
-
+    @{await Html.RenderPartialAsync("_CreateNewObjective", new ObjectiveModel());}
 </div>
 <script type="text/javascript">
     $('.tree-view').jstree({
-        //"plugins": ["search", "wholerow"],
+        "plugins": ["search"],
         'core': {
             'data': {
                 'url': function (node) {

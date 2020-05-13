@@ -102,4 +102,3 @@ function quantityInput(element, options) {
       });
     });
   }
-  
