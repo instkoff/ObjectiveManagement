@@ -17,7 +17,7 @@
         </span>
         <span class="date-time">
             <label for="completedTime">Дата завершения:</label>
-            <input name="CompletedTime" class="objective-details-input date-input" type="datetime-local" id="completedTime" value=@DateTime.Now.ToString("yyyy-MM-ddThh:mm")"/>
+            <input name="CompletedTime" class="objective-details-input date-input" type="datetime-local" id="completedTime" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")"/>
         </span>
     </div>
     <div class="objective-details-item">
@@ -27,9 +27,8 @@
         <span class="quantity">
             <input name="TotalFactTime" class="objective-details-input" type="number" placeholder="Фактическое время выполнения" />
         </span>
-
     </div>
     <div class="actions">
-        <button asp-action="" method class="button add-objective">Добавить задачу</button>
+        <button asp-action="" method class="button add-objective">Создать задачу</button>
     </div>
 </form>

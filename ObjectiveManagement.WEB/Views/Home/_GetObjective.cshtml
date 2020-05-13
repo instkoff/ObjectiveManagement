@@ -1,6 +1,6 @@
 ﻿@model ObjectiveManagement.Domain.Contracts.Models.ObjectiveModel
 <div class="title">Детали задачи:</div>
-<form class="content-form" action="" method="post">
+<form class="content-form" asp-action="Update">
     <div class="objective-details-item">
         <input type="text" name="Name" class="objective-details-input" placeholder="Наименование задачи" value="@Model.Name" />
     </div>
@@ -67,12 +67,12 @@
         <button class="button add-subobjective">Добавить подзадачу</button>
         @if (@Model.SubObjectives.Any())
         {
-            <button class="button delete-objective" hidden>Удалить задачу</button>
+            <button class="button delete-objective" hidden>Удалить</button>
         }
         else
         {
-            <button class="button delete-objective">Удалить задачу</button>
+            <button class="button delete-objective">Удалить</button>
         }
-        <button class="button save-objective">Сохранить задачу</button>
+        <button class="button save-objective">Сохранить</button>
     </div>
 </form>
