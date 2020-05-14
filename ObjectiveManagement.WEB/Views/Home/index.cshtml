@@ -10,6 +10,7 @@
     <partial name="_ValidationScriptsPartial" />
     <script src="~/lib/jstree/dist/jstree.js"></script>
     <script type="text/javascript">
+        let selectedNodeId;
         $('.tree-view').jstree({
             "plugins": ["search"],
             'core': {
@@ -26,9 +27,17 @@
                 "themes.icons": false
             }
         });
-        $('.tree-view').on('select_node.jstree', function (e, data) {
-            $(".objective-details").load("/api/Home/id?id=" + data.node.id);
-        });
+        $('.tree-view').on('select_node.jstree',
+            function(e, data) {
+                $(".objective-details").load("/api/Home/id?id=" + data.node.id);
+                selectedNodeId = data.node.id;
+                console.log(selectedNodeId);
+            });
+        $(".add-subobjective").click(function(e) {
+            e.preventDefault();
+            $(".objective-details").load("/api/Home/add_sub_objective?id=" + selectedNodeId);
+        })
+
     </script>
     <script type="text/javascript">
         let createForm = $("#CreateObjectiveForm");
@@ -39,15 +48,7 @@
             }
         });
     </script>
-    <script type="text/javascript">
-        let objectiveDetailsForm = $("#ObjectiveDetailsForm");
-        objectiveDetailsForm.on("submit", function (e) {
-            e.preventDefault();
-            if (objectiveDetailsForm.valid()) {
-                CreateObjectiveRequest();
-            }
-        });
-    </script>
+
 
 }
 

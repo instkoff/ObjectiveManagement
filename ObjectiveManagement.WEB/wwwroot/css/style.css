@@ -1,1 +1,81 @@
-body{margin:0px;background-color:#E5E5E5;font-family:Verdana}.box{background:#FFF;color:#3A3C4C;box-shadow:0 0 15px rgba(170,179,204,0.34);padding:10px;border-radius:10px}header{background:#424950;color:#FFF;display:flex;width:100%;min-height:45px;align-items:center;justify-content:center}section{width:85%;height:100%;margin:0 auto}.main{display:flex;justify-content:center;margin-top:3%}.main .tree-view{min-width:20%;align-self:flex-start}.main .objective-details{display:flex;flex-direction:column;height:35%;min-width:40%;margin-left:2%}.main .objective-details .title{text-align:center;width:100%}.main .objective-details .content-form{display:flex;flex-direction:column;justify-content:space-between}.main .objective-details .content-form .objective-details-item{display:flex;justify-content:space-around;font-size:12px;border-bottom:1px solid #e2e2e2;padding:2%}.main .objective-details .content-form .objective-details-item .objective-details-input{width:100%;min-height:31px}.main .objective-details .content-form .objective-details-item .date-time{display:flex;flex-direction:column;align-items:center;justify-content:space-around;width:calc(45% - 16px)}.main .objective-details .content-form .objective-details-item .date-input{text-align:center}.main .objective-details .content-form .objective-details-item .quantity{position:relative}.main .objective-details .content-form .objective-details-item .quantity input{width:50px;height:42px;line-height:1.65;float:left;display:block;padding:0;margin:0;padding-left:20px;border:1px solid #eee}.main .objective-details .content-form .objective-details-item .quantity input:focus{outline:0}.main .objective-details .content-form .objective-details-item input[type=number]::-webkit-inner-spin-button,.main .objective-details .content-form .objective-details-item input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.main .objective-details .content-form .objective-details-item input[type=number]{-moz-appearance:textfield}.main .objective-details .content-form .objective-details-item .quantity-nav{float:left;position:relative;height:42px}.main .objective-details .content-form .objective-details-item .quantity-button{position:relative;cursor:pointer;border-left:1px solid #eee;width:20px;text-align:center;color:#333;font-size:13px;font-family:"Trebuchet MS",Helvetica,sans-serif !important;line-height:1.7;transform:translateX(-100%);-webkit-user-select:none;user-select:none}.main .objective-details .content-form .objective-details-item .quantity-button--up{position:absolute;height:50%;top:0;border-bottom:1px solid #eee}.main .objective-details .content-form .objective-details-item .quantity-button--down{position:absolute;bottom:-1px;height:50%}.main .objective-details .content-form .actions{display:flex;justify-content:center;align-items:center;min-height:31px;padding:2%}
+/* Стиль текста */
+/* Цвета */
+body {
+  margin: 0px;
+  background-color: #E5E5E5;
+  font-family: Verdana;
+}
+.box {
+  background: #FFF;
+  color: #3A3C4C;
+  box-shadow: 0px 0px 15px rgba(170, 179, 204, 0.34);
+  padding: 10px;
+  border-radius: 10px;
+}
+header {
+  background: #424950;
+  color: #FFF;
+  display: flex;
+  width: 100%;
+  min-height: 45px;
+  align-items: center;
+  justify-content: center;
+}
+section {
+  width: 85%;
+  height: 100%;
+  margin: 0 auto;
+}
+.main {
+  display: flex;
+  justify-content: center;
+  margin-top: 3%;
+}
+.main .tree-view {
+  min-width: 20%;
+  align-self: flex-start;
+}
+.main .objective-details {
+  display: flex;
+  flex-direction: column;
+  height: 35%;
+  min-width: 40%;
+  margin-left: 2%;
+}
+.main .objective-details .title {
+  text-align: center;
+  width: 100%;
+}
+.main .objective-details .content-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.main .objective-details .content-form .objective-details-item {
+  display: flex;
+  justify-content: space-around;
+  font-size: 12px;
+  border-bottom: 1px solid #e2e2e2;
+  padding: 2.5%;
+}
+.main .objective-details .content-form .objective-details-item .objective-details-input {
+  width: 100%;
+  min-height: 31px;
+}
+.main .objective-details .content-form .objective-details-item .date-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: calc(45% - 16px);
+}
+.main .objective-details .content-form .objective-details-item .date-input {
+  text-align: center;
+}
+.main .objective-details .content-form .actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 31px;
+  padding: 2%;
+}

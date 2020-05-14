@@ -1,0 +1,1 @@
+2020-05-14 22:14:15.211 +07:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.

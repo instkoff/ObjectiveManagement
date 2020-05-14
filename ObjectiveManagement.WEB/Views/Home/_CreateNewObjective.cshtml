@@ -1,8 +1,15 @@
 ﻿@model ObjectiveModel
+@if (ViewBag.parentId == null)
+{
+    <div class="title">Добавить задачу:</div>
+}
+else
+{
+    <div class="title">Добавить подзадачу @ViewBag.parentId:</div>
+    Model.ParentId = ViewBag.parentId;
 
-<div class="title">Детали задачи:</div>
+}
 <form class="content-form" id="CreateObjectiveForm" asp-action="Create" asp-controller="Home">
-    <div class="validation" asp-validation-summary="ModelOnly"></div>
     <div class="objective-details-item">
         <input asp-for="Name" class="objective-details-input" id="Name" placeholder="Наименование задачи" />
         <span asp-validation-for="Name" class="text-danger"></span>

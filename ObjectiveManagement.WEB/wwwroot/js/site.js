@@ -8,19 +8,21 @@
 */
 "use strict";
 function CreateObjectiveRequest() {
+    let objective = JSON.stringify({
+        name: $("#Name").val(),
+        description: $("#Description").val(),
+        performers: $("#Performers").val(),
+        estimateTime: $("#TotalEstimateTime").val(),
+        factTime: 0,
+        objectiveStatus: 0,
+        CreatedTime: $("#CreatedTime").val()
+    });
+    console.log(objective);
     $.ajax({
+        url: "/api/Home/",
+        data: objective,
         type: "POST",
-        url: "/api/Home",
-        data: {
-            Name: $("#Name").val(),
-            Description: $("#Description").val(),
-            Performers: $("#Performers").val(),
-            TotalEstimateTime: $("#TotalEstimateTime").val(),
-            TotalFactTime: 0,
-            ObjectiveStatus: 0,
-            CreatedTime: $("#CreatedTime").val(),
-            //ParentId: parent
-        },
+        contentType: "application/json",
         success: function (result) {
             refreshNode(result);
         },
@@ -35,12 +37,12 @@ function UpdateObjectiveRequest() {
         type: "PUT",
         url: "/api/Home",
         data: {
-            Name: $("#Name").val(),
-            Description: $("#Description").val(),
-            Performers: $("#Performers").val(),
-            TotalEstimateTime: $("#TotalEstimateTime").val(),
-            TotalFactTime: ("#"),
-            ObjectiveStatus: 0,
+            name: $("#Name").val(),
+            description: $("#Description").val(),
+            performers: $("#Performers").val(),
+            estimateTime: $("#TotalEstimateTime").val(),
+            factTime: 0,
+            objectiveStatus: 0,
             CreatedTime: $("#CreatedTime").val()
         },
         success: function (result) {

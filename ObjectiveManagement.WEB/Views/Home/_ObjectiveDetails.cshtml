@@ -44,9 +44,9 @@
             @switch (Model.ObjectiveStatus)
             {
                 case ObjectiveStatus.Assigned:
-                    <input asp-for="ObjectiveStatus" id="AssignedChoice" value="@ObjectiveStatus.Assigned" checked />
+                    <input asp-for="ObjectiveStatus" id="AssignedChoice" type="radio" value="@ObjectiveStatus.Assigned" checked />
                     <label asp-for="ObjectiveStatus">Назначена</label>
-                    <input asp-for="ObjectiveStatus" id="InProgressChoice" value="@ObjectiveStatus.InProgress" />
+                    <input asp-for="ObjectiveStatus" id="InProgressChoice" type="radio" value="@ObjectiveStatus.InProgress" />
                     <label asp-for="ObjectiveStatus">Выполняется</label>
                     break;
                 case ObjectiveStatus.InProgress:
@@ -73,10 +73,10 @@
 
     <div class="actions">
         @*<button asp-action="" method class="button add-objective">Добавить задачу</button>*@
-        <button class="button add-subobjective">Добавить подзадачу</button>
+        <button class="button delete-objective">Добавить подзадачу</button>
         @if (@Model.SubObjectives.Any())
         {
-            <button class="button delete-objective" hidden>Удалить</button>
+            <button class="button delete-objective">Удалить</button>
         }
         else
         {

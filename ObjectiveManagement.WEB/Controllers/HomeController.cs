@@ -22,7 +22,7 @@ namespace ObjectiveManagement.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<MenuItemModel>> Create(ObjectiveModel objectiveModel)
+        public async Task<ActionResult<MenuItemModel>> Create([FromBody] ObjectiveModel objectiveModel)
         {
             if (!ModelState.IsValid) return BadRequest();
             var result = await _objectiveService.Create(objectiveModel);
@@ -40,7 +40,7 @@ namespace ObjectiveManagement.Web.Controllers
                 return BadRequest("Objective not found");
             }
 
-            return PartialView("_GetObjective",model);
+            return PartialView("_ObjectiveDetails", model);
         }
 
         [HttpGet]
@@ -49,7 +49,14 @@ namespace ObjectiveManagement.Web.Controllers
             return View();
         }
 
-        [HttpGet("api/get_all")]
+        [HttpGet("add_sub_objective")]
+        public IActionResult AddSubObjective(Guid Id)
+        {
+            ViewBag.parentId = Id;
+            return PartialView("_CreateNewObjective", new ObjectiveModel());
+        }
+
+        [HttpGet("get_all")]
         public ActionResult<List<ObjectiveModel>> GetAllActiveObjectivesApi()
         {
             var objectiveModelList = _objectiveService.GetAllActive();
