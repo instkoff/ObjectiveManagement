@@ -7,7 +7,7 @@ namespace ObjectiveManagement.Domain.Contracts
 {
     public interface IObjectiveService
     {
-        Task<Guid> Create(ObjectiveModel objectiveModel);
+        Task<MenuItemModel> Create(ObjectiveModel objectiveModel);
         Task<Guid> Update(ObjectiveModel objectiveModel);
         ObjectiveModel Get(Guid id);
         List<ObjectiveModel> GetAllActive();

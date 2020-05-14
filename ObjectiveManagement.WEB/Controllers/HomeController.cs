@@ -22,10 +22,12 @@ namespace ObjectiveManagement.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ObjectiveModel>> Create(ObjectiveModel objectiveModel)
+        public async Task<ActionResult<MenuItemModel>> Create(ObjectiveModel objectiveModel)
         {
+            if (!ModelState.IsValid) return BadRequest();
             var result = await _objectiveService.Create(objectiveModel);
             return Ok(result);
+
         }
 
         [HttpGet("id")]

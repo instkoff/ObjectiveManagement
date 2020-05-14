@@ -5,7 +5,6 @@
         Assigned,
         InProgress,
         Suspended,
-        Completed,
-        Deleted
+        Completed
     }
 }

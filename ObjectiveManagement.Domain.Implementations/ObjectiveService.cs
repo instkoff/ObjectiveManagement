@@ -21,7 +21,7 @@ namespace ObjectiveManagement.Domain.Implementations
             _dbRepository = dbRepository;
             _mapper = mapper;
         }
-        public async Task<Guid> Create(ObjectiveModel objectiveModel)
+        public async Task<MenuItemModel> Create(ObjectiveModel objectiveModel)
         {
             var entity = _mapper.Map<ObjectiveEntity>(objectiveModel);
             if (objectiveModel.ParentId == null || objectiveModel.ParentId == Guid.Empty)
@@ -36,7 +36,8 @@ namespace ObjectiveManagement.Domain.Implementations
                 parentEntity?.SubObjectives.Add(entity);
             }
             await _dbRepository.SaveChangesAsync();
-            return entity.Id;
+            var menuItem = _mapper.Map<MenuItemModel>(entity);
+            return menuItem;
         }
 
         public async Task<Guid> Update(ObjectiveModel objectiveModel)
@@ -57,13 +58,13 @@ namespace ObjectiveManagement.Domain.Implementations
                 .ToList()
                 .FirstOrDefault(x => x.Id == id);
             var model = _mapper.Map<ObjectiveModel>(entity);
-            model.TotalEstimateTime = CalculateEstimateTime(model);
+            model.TotalSubObjectivesEstimateTime = CalculateEstimateTime(model);
             return model;
         }
 
         private int CalculateEstimateTime(ObjectiveModel data)
         {
-            return data.TotalEstimateTime + data.SubObjectives.Sum(CalculateEstimateTime);
+            return data.SubObjectives.Sum(CalculateEstimateTime);
         }
 
         public List<ObjectiveModel> GetAllActive()

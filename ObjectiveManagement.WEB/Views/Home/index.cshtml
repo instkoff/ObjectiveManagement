@@ -1,33 +1,53 @@
-﻿<head>
-    <link href="~/lib/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/jstree/dist/jstree.js"></script>
-</head>
-
-<div class="tree-view box">
+﻿<div class="tree-view box">
 </div>
 
 <div class="objective-details box">
     @{await Html.RenderPartialAsync("_CreateNewObjective", new ObjectiveModel());}
 </div>
-<script type="text/javascript">
-    $('.tree-view').jstree({
-        "plugins": ["search"],
-        'core': {
-            'data': {
-                'url': function (node) {
-                    return node.id === "#" ? "/api/Menu/get_root" : "/api/Menu/get_children/" + node.id;
+
+@section scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jstree/dist/jstree.js"></script>
+    <script type="text/javascript">
+        $('.tree-view').jstree({
+            "plugins": ["search"],
+            'core': {
+                'data': {
+                    'url': function (node) {
+                        return node.id === "#" ? "/api/Menu/get_root" : `/api/Menu/get_children/${node.id}`;
+                    },
+                    'data': function (node) {
+                        return { 'id': node.id };
+                    }
                 },
-                'data': function (node) {
-                    return { 'id': node.id };
-                }
-            },
-            "multiple": false,
-            "animation": 100,
-            "themes.icons": false
-        }
-    });
-    $('.tree-view').on('changed.jstree', function (e, data) {
-        $(".objective-details").load("/api/Home/id?id="+data.node.id);
-    });
-</script>
+                "multiple": false,
+                "animation": 50,
+                "themes.icons": false
+            }
+        });
+        $('.tree-view').on('select_node.jstree', function (e, data) {
+            $(".objective-details").load("/api/Home/id?id=" + data.node.id);
+        });
+    </script>
+    <script type="text/javascript">
+        let createForm = $("#CreateObjectiveForm");
+        createForm.on("submit", function (e) {
+            e.preventDefault();
+            if (createForm.valid()) {
+                CreateObjectiveRequest();
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        let objectiveDetailsForm = $("#ObjectiveDetailsForm");
+        objectiveDetailsForm.on("submit", function (e) {
+            e.preventDefault();
+            if (objectiveDetailsForm.valid()) {
+                CreateObjectiveRequest();
+            }
+        });
+    </script>
+
+}
+

@@ -1,34 +1,33 @@
-﻿@model ObjectiveManagement.Domain.Contracts.Models.ObjectiveModel
+﻿@model ObjectiveModel
+
 <div class="title">Детали задачи:</div>
-<form class="content-form" asp-action="Create" method="post">
+<form class="content-form" id="CreateObjectiveForm" asp-action="Create" asp-controller="Home">
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
     <div class="objective-details-item">
-        <input asp-for="Name"  class="objective-details-input" placeholder="Наименование задачи" />
+        <input asp-for="Name" class="objective-details-input" id="Name" placeholder="Наименование задачи" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="objective-details-item">
-        <textarea name="Description" class="objective-details-input" placeholder="Описание задачи" cols="30" rows="10"></textarea>
+        <textarea asp-for="Description" class="objective-details-input" id="Description" placeholder="Описание задачи" cols="30" rows="10"></textarea>
     </div>
     <div class="objective-details-item">
-        <textarea name="Performers" class="objective-details-input" placeholder="Список исполнителей" cols="10" rows="10"></textarea>
+        <textarea asp-for="Performers" class="objective-details-input" id="Performers" placeholder="Список исполнителей" cols="10" rows="10"></textarea>
+        <span asp-validation-for="Performers"></span>
     </div>
-    <div class="objective-details-item">
+    <div class="objective-details-item" hidden>
         <span class="date-time">
-            <label for="createTime">Дата создания:</label>
-            <input name="CreatedTime" class="objective-details-input date-input" type="datetime-local" id="createTime" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")"/>
-        </span>
-        <span class="date-time">
-            <label for="completedTime">Дата завершения:</label>
-            <input name="CompletedTime" class="objective-details-input date-input" type="datetime-local" id="completedTime" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")"/>
+            <label for="CreatedTime">Дата создания:</label>
+            <input asp-for="CreatedTime" class="objective-details-input date-input" id="CreatedTime" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" readonly />
+            <span asp-validation-for="CreatedTime"></span>
         </span>
     </div>
     <div class="objective-details-item">
         <span class="quantity">
-            <input name="TotalEstimateTime" class="objective-details-input" type="number" placeholder="Плановая трудоёмкость задачи" />
-        </span>
-        <span class="quantity">
-            <input name="TotalFactTime" class="objective-details-input" type="number" placeholder="Фактическое время выполнения" />
+            <input asp-for="TotalSubObjectivesEstimateTime" class="objective-details-input" id="TotalEstimateTime" placeholder="Плановая трудоёмкость задачи" />
+            <span asp-validation-for="TotalSubObjectivesEstimateTime"></span>
         </span>
     </div>
     <div class="actions">
-        <button asp-action="" method class="button add-objective">Создать задачу</button>
+        <input type="submit" class="button add-objective" value="Создать задачу" />
     </div>
 </form>

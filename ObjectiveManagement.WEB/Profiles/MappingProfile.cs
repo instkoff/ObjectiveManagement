@@ -11,11 +11,9 @@ namespace ObjectiveManagement.Web.Profiles
         public MappingProfile()
         {
             CreateMap<ObjectiveEntity, ObjectiveModel>()
-                .ForMember(dest=>dest.TotalEstimateTime, opt=>opt.MapFrom(src=>src.EstimateTime))
                 .ForMember(dest=>dest.CreatedTime, opt=>opt.MapFrom(src=>src.CreatedTime.ToString("yyyy-MM-ddThh:mm")))
                 .ForMember(dest=>dest.CompletedTime, opt=>opt.MapFrom(src=>src.CompletedTime.ToString("yyyy-MM-ddThh:mm")));
             CreateMap<ObjectiveModel, ObjectiveEntity>()
-                .ForMember(dest => dest.EstimateTime, opt => opt.MapFrom(src => src.TotalEstimateTime))
                 .ForMember(dest => dest.CompletedTime, opt => opt.MapFrom(src => DateTime.Parse(src.CompletedTime)))
                 .AfterMap((src, dest) => dest.CreatedTime = DateTime.Now);
             CreateMap<ObjectiveEntity, MenuItemModel>()
@@ -24,24 +22,14 @@ namespace ObjectiveManagement.Web.Profiles
                 .ForMember(dest => dest.parent, opt => opt.MapFrom(src => src.ParentId == null ? "#" : src.ParentId.ToString()))
                 .AfterMap((src,dest)=>
                 {
-                    switch (src.ObjectiveStatus)
+                    dest.Icon = src.ObjectiveStatus switch
                     {
-                        case ObjectiveStatus.Assigned:
-                            dest.Icon = "/img/task_assigned.png";
-                            break;
-                        case ObjectiveStatus.InProgress:
-                            dest.Icon = "/img/task_in_progress.png";
-                            break;
-                        case ObjectiveStatus.Suspended:
-                            dest.Icon = "/img/task_suspended.png";
-                            break;
-                        case ObjectiveStatus.Completed:
-                            dest.Icon = "/img/task_completed.png";
-                            break;
-                        default:
-                            dest.Icon = "/img/task_assigned.png";
-                            break;
-                    }
+                        ObjectiveStatus.Assigned => "/img/task_assigned.png",
+                        ObjectiveStatus.InProgress => "/img/task_in_progress.png",
+                        ObjectiveStatus.Suspended => "/img/task_suspended.png",
+                        ObjectiveStatus.Completed => "/img/task_completed.png",
+                        _ => "/img/task_assigned.png",
+                    };
                     //dest.a_attr.Href = "/api/Home/id?id=" + dest.Id;
                     if (src.SubObjectives.Any()) 
                         dest.Children = true;

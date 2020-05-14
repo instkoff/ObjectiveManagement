@@ -6,20 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Objective management</title>
     <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/lib/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+
 </head>
 
 
 <body>
-<header>
-    <h3>Objective Management System</h3>
-</header>
-<section>
-    <div class="main">
-        @RenderBody()
-    </div>
-</section>
-<footer>
-</footer>
-<script src="~/js/site.js"></script>
+    <header>
+        <h3>Objective Management System</h3>
+    </header>
+    <section>
+        <div class="main">
+            @RenderBody()
+        </div>
+    </section>
+    <footer>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/site.js"></script>
+    @RenderSection("scripts", false)
 </body>
 </html>

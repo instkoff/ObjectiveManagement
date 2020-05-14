@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ObjectiveManagement.Domain.Contracts.Models
+﻿namespace ObjectiveManagement.Domain.Contracts.Models
 {
     public class MenuItemModel
     {
