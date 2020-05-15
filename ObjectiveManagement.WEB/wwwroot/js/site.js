@@ -12,7 +12,7 @@ function DrawTreeMenu(treeSelector) {
         'core': {
             'data': {
                 'url': function (node) {
-                    return node.id === "#" ? appSettings.Urls.getRootItems : appSettings.Urls.getChildrenItems+node.id;
+                    return node.id === "#" ? appSettings.Urls.getRootItems : appSettings.Urls.getChildrenItems + "?Id=" + node.id;
                 },
                 'data': function (node) {
                     return { 'id': node.id };

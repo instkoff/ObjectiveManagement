@@ -8,7 +8,7 @@ else
 {
     <div class="title">Добавить подзадачу для: @ViewBag.objectiveName</div>
 }
-<form class="content-form" id="CreateObjectiveForm" asp-action="Create" asp-controller="Home">
+<form class="content-form" id="CreateObjectiveForm" asp-action="Create" asp-controller="Objective">
     <div class="objective-details-item">
         <input asp-for="Name" class="objective-details-input" id="Name" placeholder="Наименование задачи" />
         <span asp-validation-for="Name" class="text-danger"></span>

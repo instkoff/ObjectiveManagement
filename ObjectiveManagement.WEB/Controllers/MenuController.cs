@@ -5,7 +5,6 @@ using ObjectiveManagement.Domain.Contracts;
 
 namespace ObjectiveManagement.Web.Controllers
 {
-    [Route("api/[controller]")]
     public class MenuController : Controller
     {
         private readonly IMenuService _menuService;
@@ -26,8 +25,8 @@ namespace ObjectiveManagement.Web.Controllers
             }
             return Ok(menuItems);
         }
-        [HttpGet("get_children/{id}")]
-        public ActionResult GetChildren(Guid id)
+        [HttpGet("get_children")]
+        public ActionResult GetChildren([FromQuery]Guid id)
         {
             var menuItems = _menuService.GetTree(id);
 
