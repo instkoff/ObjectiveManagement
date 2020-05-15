@@ -58,13 +58,14 @@ namespace ObjectiveManagement.Domain.Implementations
                 .ToList()
                 .FirstOrDefault(x => x.Id == id);
             var model = _mapper.Map<ObjectiveModel>(entity);
-            model.TotalSubObjectivesEstimateTime = CalculateEstimateTime(model);
+            model.TotalSubObjectivesEstimateTime += CalculateEstimateTime(model);
+            model.TotalSubObjectivesEstimateTime -= model.EstimateTime;
             return model;
         }
 
         private int CalculateEstimateTime(ObjectiveModel data)
         {
-            return data.SubObjectives.Sum(CalculateEstimateTime);
+            return data.EstimateTime + data.SubObjectives.Sum(CalculateEstimateTime);
         }
 
         public List<ObjectiveModel> GetAllActive()

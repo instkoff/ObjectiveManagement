@@ -29,7 +29,7 @@
             function(e, data) {
                 $(".objective-details").load(appSettings.Urls.getObjective + "?Id=" + data.node.id);
                 selectedNode.id = data.node.id;
-                selectedNode.name = data.node.text;
+                selectedNode.name = "Test"; /*data.node.text;*/
             });
 
         $("#addObjective").click(function(e) {
