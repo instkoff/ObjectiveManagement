@@ -1,18 +1,18 @@
 ﻿@model ObjectiveModel
+
 @if (ViewBag.parentId == null)
 {
     <div class="title">Добавить задачу:</div>
 }
 else
 {
-    <div class="title">Добавить подзадачу @ViewBag.parentId:</div>
-    Model.ParentId = ViewBag.parentId;
-
+    <div class="title">Добавить подзадачу для: @ViewBag.objectiveName</div>
 }
 <form class="content-form" id="CreateObjectiveForm" asp-action="Create" asp-controller="Home">
     <div class="objective-details-item">
         <input asp-for="Name" class="objective-details-input" id="Name" placeholder="Наименование задачи" />
         <span asp-validation-for="Name" class="text-danger"></span>
+        <input asp-for="ParentId" class="objective-details-input" id="ParentId" value="@ViewBag.parentId" hidden/>
     </div>
     <div class="objective-details-item">
         <textarea asp-for="Description" class="objective-details-input" id="Description" placeholder="Описание задачи" cols="30" rows="10"></textarea>
@@ -30,11 +30,11 @@ else
     </div>
     <div class="objective-details-item">
         <span class="quantity">
-            <input asp-for="TotalSubObjectivesEstimateTime" class="objective-details-input" id="TotalEstimateTime" placeholder="Плановая трудоёмкость задачи" />
-            <span asp-validation-for="TotalSubObjectivesEstimateTime"></span>
+            <input asp-for="EstimateTime" class="objective-details-input" id="EstimateTime" placeholder="Плановая трудоёмкость задачи" />
+            <span asp-validation-for="EstimateTime"></span>
         </span>
     </div>
     <div class="actions">
-        <input type="submit" class="button add-objective" value="Создать задачу" />
+        <input type="submit" id="SaveButton" value="Создать задачу" />
     </div>
 </form>

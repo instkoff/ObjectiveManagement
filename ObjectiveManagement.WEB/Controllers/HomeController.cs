@@ -30,7 +30,7 @@ namespace ObjectiveManagement.Web.Controllers
 
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public IActionResult Get(Guid id)
         {
             var model = _objectiveService.Get(id);
@@ -50,10 +50,17 @@ namespace ObjectiveManagement.Web.Controllers
         }
 
         [HttpGet("add_sub_objective")]
-        public IActionResult AddSubObjective(Guid Id)
+        public IActionResult AddSubObjective([FromQuery]Guid parentId,[FromQuery]string objectiveName)
         {
-            ViewBag.parentId = Id;
-            return PartialView("_CreateNewObjective", new ObjectiveModel());
+            ViewBag.parentId = parentId;
+            ViewBag.objectiveName = objectiveName;
+            return PartialView("_CreateObjective", new ObjectiveModel());
+        }
+
+        [HttpGet("add_objective")]
+        public IActionResult AddObjective()
+        {
+            return PartialView("_CreateObjective", new ObjectiveModel());
         }
 
         [HttpGet("get_all")]

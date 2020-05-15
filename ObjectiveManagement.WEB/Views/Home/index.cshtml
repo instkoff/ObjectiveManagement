@@ -1,54 +1,53 @@
-﻿<div class="tree-view box">
-</div>
+﻿<div class="main-window">
+    <div class="menu box">
+        <a href="#" id="addObjective" class="button button-inline button-small button-inverse"><span>Добавить задачу</span></a>
+        <a href="#" id="addSubObjective" class="button button-inline button-small button-inverse"><span>Добавить подзадачу</span></a>
+        <a href="#" class="button button-inline button-small button-inverse"><span>Удалить задачу</span></a>
+    </div>
+    <div class="objective-details box">
+        @{await Html.RenderPartialAsync("_CreateObjective", new ObjectiveModel());}
+    </div>
 
-<div class="objective-details box">
-    @{await Html.RenderPartialAsync("_CreateNewObjective", new ObjectiveModel());}
 </div>
 
 @section scripts
 {
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
     <script src="~/lib/jstree/dist/jstree.js"></script>
     <script type="text/javascript">
-        let selectedNodeId;
-        $('.tree-view').jstree({
-            "plugins": ["search"],
-            'core': {
-                'data': {
-                    'url': function (node) {
-                        return node.id === "#" ? "/api/Menu/get_root" : `/api/Menu/get_children/${node.id}`;
-                    },
-                    'data': function (node) {
-                        return { 'id': node.id };
-                    }
-                },
-                "multiple": false,
-                "animation": 50,
-                "themes.icons": false
-            }
-        });
-        $('.tree-view').on('select_node.jstree',
+        var appSettings = appSettings || {};
+        appSettings.Urls = appSettings.Urls || {};
+        appSettings.Urls.getRootItems = "@Url.Action("GetRoot", "Menu")";
+        appSettings.Urls.getChildrenItems = "/api/Menu/get_children/";
+        appSettings.Urls.homeController = "/api/Home/";
+        appSettings.Urls.addObjective = "@Url.Action("AddObjective", "Home")";
+        appSettings.Urls.addSubObjective = "@Url.Action("AddSubObjective", "Home")";
+
+        let selectedNode = {};
+        DrawTreeMenu(".tree-view");
+        $(".tree-view").on('select_node.jstree',
             function(e, data) {
-                $(".objective-details").load("/api/Home/id?id=" + data.node.id);
-                selectedNodeId = data.node.id;
-                console.log(selectedNodeId);
+                $(".objective-details").load(appSettings.Urls.homeController + data.node.id);
+                selectedNode.id = data.node.id;
+                selectedNode.name = data.node.text;
             });
-        $(".add-subobjective").click(function(e) {
-            e.preventDefault();
-            $(".objective-details").load("/api/Home/add_sub_objective?id=" + selectedNodeId);
-        })
 
-    </script>
-    <script type="text/javascript">
-        let createForm = $("#CreateObjectiveForm");
-        createForm.on("submit", function (e) {
+        $("#addObjective").click(function(e) {
             e.preventDefault();
-            if (createForm.valid()) {
-                CreateObjectiveRequest();
-            }
+            $(".objective-details").load(appSettings.Urls.addObjective,
+                function() {
+                    sendFormData(".tree-view", "#CreateObjectiveForm");
+                });
+        });
+        $("#addSubObjective").click(function(e) {
+            e.preventDefault();
+            $(".objective-details").load(appSettings.Urls.addSubObjective +
+                "?parentId=" + selectedNode.id +
+                "&objectiveName=" + selectedNode.name,
+            function() {
+                    sendFormData(".tree-view", "#CreateObjectiveForm");
+                });
         });
     </script>
-
-
 }
 

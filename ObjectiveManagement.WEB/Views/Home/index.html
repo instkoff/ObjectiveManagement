@@ -9,52 +9,42 @@
 </head>
 
 <body>
-    <header>
-        <h3>Objective Management System</h3>
-    </header>
-    <section>
-        <div class="main">
-            <div class="tree-view box">
-                <ul>
-                    <li>пункт</li>
-                    <li>пункт           
-                      <ul>
+<header>
+    <h3>Objective Management System</h3>
+</header>
+<section>
+
+</section>
+<section>
+    <div class="main">
+        <div class="tree-view box">
+            <ul>
+                <li>пункт</li>
+                <li>пункт           
+                    <ul>
                         <li>пункт</li>
                         <li>пункт</li>
                         <li>пункт
-                          <ul>
-                            <li>пункт</li> 
-                            <li>пункт</li>
-                            <li>пункт</li>
-                          </ul>
+                            <ul>
+                                <li>пункт</li> 
+                                <li>пункт</li>
+                                <li>пункт</li>
+                            </ul>
                         </li>
                         <li>пункт</li>
-                      </ul>
-                    </li>
-                    <li>пункт</li>       
-                    <li>пункт</li>       
-                  </ul>
-                  <ul>
-                    <li>пункт</li>
-                    <li>пункт           
-                      <ul>
-                        <li>пункт</li>
-                        <li>пункт</li>
-                        <li>пункт
-                          <ul>
-                            <li>пункт</li> 
-                            <li>пункт</li>
-                            <li>пункт</li>
-                          </ul>
-                        </li>
-                        <li>пункт</li>
-                      </ul>
-                    </li>
-                    <li>пункт</li>       
-                    <li>пункт</li>       
-                  </ul>
+                    </ul>
+                </li>
+                <li>пункт</li>       
+                <li>пункт</li>       
+            </ul>
+        </div>
+
+        <div class="main-window">
+            <div class="menu box">
+                <a href="#nada" class="button button-inline button-small button-inverse"><span>Добавить задачу</span></a>
+                <a href="#nada" class="button button-inline button-small button-inverse"><span>Добавить подзадачу</span></a>
+                <a href="#nada" class="button button-inline button-small button-inverse"><span>Удалить задачу</span></a>
             </div>
-    
             <div class="objective-details box">
                 <div class="title">Детали задачи:</div>
                 <form class="content-form" action="" method="post">
@@ -84,7 +74,7 @@
                         <span>
                             <input class="objective-details-input" type="number" placeholder="Фактическое время выполнения"/>
                         </span>
-                       
+                           
                     </div>
                     <div class="objective-details-item">
                         <div class="status-radio">
@@ -97,22 +87,23 @@
                             <label for="SuspendedChoice">Приостановлена</label>
                             <input type="radio" id="CompletedChoice" value="3">
                             <label for="CompletedChoice">Завершена</label>
-                         </div>
+                        </div>
                     </div>
-                    
+                        
                     <div class="actions">
-                        <button class="button add-objective">Добавить задачу</button>
-                        <button class="button add-subobjective" hidden>Добавить подзадачу</button>
-                        <button class="button delete-objective" hidden>Удалить задачу</button>
-                        <button class="button save-objective" hidden>Сохранить задачу</button>
-                      </div>
-    
+                        <button class="save-button">Сохранить</button>
+                    </div>
+        
                 </form>
             </div>
-
         </div>
-    </section>
-    <footer>
+    
 
-    </footer>
+
+    </div>
+</section>
+<footer>
+
+</footer>
 </body>
+</html>

@@ -7,6 +7,68 @@
 @container-shadow: 0px 0px 15px rgba(170, 179, 204, 0.34);
 @font-color: #3A3C4C;
 @border: 1px solid #e2e2e2;
+@inverse-background-color: #363636;
+@inverse-text-color: #fafafa;
+@default-background-color: #fafafa;
+@default-text-color: #222;
+
+.boxShadow (@statement) {
+    -webkit-box-shadow: @statement;
+    -moz-box-shadow: @statement;
+    box-shadow: @statement;
+}
+
+.transition (@property, @duration, @transition: linear) {
+    -webkit-transition-property: @property;
+    -webkit-transition-duration: @duration;
+    -webkit-transition-timing-function: @transition;
+    -moz-transition-property: @property;
+    -moz-transition-duration: @duration;
+    -moz-transition-timing-function: @transition;
+    -ms-transition-property: @property;
+    -ms-transition-duration: @duration;
+    -ms-transition-timing-function: @transition;
+    -o-transition-property: @property;
+    -o-transition-duration: @duration;
+    -o-transition-timing-function: @transition;
+    transition-property: @property;
+    transition-duration: @duration;
+    transition-timing-function: @transition;
+}
+
+.buttonColor (@background, @text) {
+    background: @background;
+    color: @text;
+
+    &:hover,
+    &:focus {
+        background: darken(@background, 8%);
+        color: @text;
+    }
+}
+
+.buttonSize (@height, @depth, @font-size) {
+    height: @height;
+    padding: 0 @font-size - 4;
+    border-radius: @depth + 2;
+    .boxShadow(inset 0 -@depth 0 0 rgba(0, 0, 0, 0.15));
+    font-size: @font-size;
+    line-height: @height - @depth;
+
+    i {
+        line-height: @height - @depth;
+    }
+
+    &:active,
+    &:active i {
+        line-height: @height;
+    }
+
+    &.button-inverse {
+        .boxShadow(inset 0 -@depth 0 0 rgba(0, 0, 0, 0.2));
+    }
+}
+
 
 body {
     margin: 0px;
@@ -41,64 +103,115 @@ section {
 .main {
     display: flex;
     justify-content: center;
-    margin-top: 3%;
+    margin-top: 1%;
 
     .tree-view {
         min-width: 20%;
         align-self: flex-start;
     }
 
-    .objective-details {
-        display: flex;
-        flex-direction: column;
-        height: 35%;
+    .main-window {
+        height: 100%;
+        max-width: 50%;
         min-width: 40%;
-        margin-left: 2%;
 
-        .title {
-            text-align: center;
-            width: 100%;
+        .menu {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 1.5%;
+            margin-left: 2%;
+            a {
+                text-decoration: none;
+            }
+            .button {
+                display: block;
+                text-align: center;
+                cursor: pointer;
+                border: none;
+                .buttonSize(40px, 3px, 18px);
+                .transition(background-color, 0.2s);
+                .buttonColor(@default-background-color, @default-text-color);
+
+                &.button-inverse {
+                    .buttonColor(@inverse-background-color, @inverse-text-color);
+                }
+
+                &:hover {
+                    text-decoration: none;
+                }
+
+                &:focus {
+                    text-decoration: none;
+                    outline: none;
+                }
+
+                &:active {
+                    .boxShadow(~"none");
+                }
+            }
+
+            .button-small {
+                .buttonSize(30px, 2px, 14px);
+            }
+
+            .button-inline {
+                display: inline-block;
+                vertical-align: middle;
+            }
         }
 
-        .content-form {
+        .objective-details {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            height: 35%;
+            margin-left: 2%;
 
-            .objective-details-item {
+            .title {
+                text-align: center;
+                width: 100%;
+            }
+
+            .content-form {
                 display: flex;
-                justify-content: space-around;
-                font-size: 12px;
-                border-bottom: @border;
-                padding: 2.5%;
+                flex-direction: column;
+                justify-content: space-between;
 
-                .objective-details-input {
-                    width: 100%;
-                    min-height: 31px;
-                }
-
-                .date-time {
+                .objective-details-item {
                     display: flex;
-                    flex-direction: column;
-                    align-items: center;
                     justify-content: space-around;
-                    width: calc(45% - 16px);
+                    font-size: 12px;
+                    border-bottom: @border;
+                    padding: 2.5%;
+
+                    .objective-details-input {
+                        width: 100%;
+                        min-height: 31px;
+                    }
+
+                    .date-time {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: space-around;
+                        width: calc(45% - 16px);
+                    }
+
+                    .date-input {
+                        text-align: center;
+                    }
                 }
 
-                .date-input {
-                    text-align: center;
+                .actions {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    min-height: 31px;
+                    padding: 2%;
                 }
-            }
 
-            .actions {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                min-height: 31px;
-                padding: 2%;
             }
-
         }
-    }
 
+    }
 }
