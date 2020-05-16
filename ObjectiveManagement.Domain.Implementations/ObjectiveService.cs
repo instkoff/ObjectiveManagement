@@ -83,6 +83,7 @@ namespace ObjectiveManagement.Domain.Implementations
             }
             return result;
         }
+
         public async Task<bool> Delete(Guid id)
         {
             var entity = _dbRepository
@@ -90,7 +91,7 @@ namespace ObjectiveManagement.Domain.Implementations
                 .Include(s=>s.SubObjectives)
                 .FirstOrDefault(x => x.Id == id);
             if ((entity != null && entity.SubObjectives.Any()) || entity == null) return false;
-            await _dbRepository.DeleteAsync<ObjectiveEntity>(id);
+            await _dbRepository.RemoveAsync<ObjectiveEntity>(id);
             await _dbRepository.SaveChangesAsync();
             return true;
         }

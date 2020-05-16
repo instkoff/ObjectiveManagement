@@ -22,7 +22,7 @@ namespace ObjectiveManagement.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<MenuItemModel>> Create([FromBody] ObjectiveModel objectiveModel)
+        public async Task<ActionResult<MenuItemModel>> Create([FromBody]ObjectiveModel objectiveModel)
         {
             if (!ModelState.IsValid) return BadRequest();
             var result = await _objectiveService.Create(objectiveModel);
@@ -42,7 +42,7 @@ namespace ObjectiveManagement.Web.Controllers
             return Ok(result);
         }
         [HttpDelete]
-        public async Task<ActionResult<bool>> Delete([FromQuery]Guid id)
+        public async Task<ActionResult<bool>> Delete([FromBody]Guid id)
         {
             var result = await _objectiveService.Delete(id);
             if (result) return Ok();

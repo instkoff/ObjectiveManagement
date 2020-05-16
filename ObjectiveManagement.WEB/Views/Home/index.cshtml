@@ -2,7 +2,7 @@
     <div class="menu box">
         <a href="#" id="addObjective" class="button button-inline button-small button-inverse"><span>Добавить задачу</span></a>
         <a href="#" id="addSubObjective" class="button button-inline button-small button-inverse"><span>Добавить подзадачу</span></a>
-        <a href="#" class="button button-inline button-small button-inverse"><span>Удалить задачу</span></a>
+        <a href="#" id="deleteObjective" class="button button-inline button-small button-inverse"><span>Удалить задачу</span></a>
     </div>
     <div class="objective-details box">
         @{await Html.RenderPartialAsync("_CreateObjective", new ObjectiveModel());}
@@ -22,14 +22,16 @@
         appSettings.Urls.getObjective = "@Url.Action("GetObjective", "Home")";
         appSettings.Urls.addObjective = "@Url.Action("CreateObjective", "Home")";
         appSettings.Urls.addSubObjective = "@Url.Action("CreateSubObjective", "Home")";
+        appSettings.Urls.deleteObjective = "@Url.Action("Delete", "Objective")";
 
         let selectedNode = {};
         DrawTreeMenu(".tree-view");
+
         $(".tree-view").on('select_node.jstree',
             function(e, data) {
                 $(".objective-details").load(appSettings.Urls.getObjective + "?Id=" + data.node.id);
+                console.log(data.node);
                 selectedNode.id = data.node.id;
-                selectedNode.name = "Test"; /*data.node.text;*/
             });
 
         $("#addObjective").click(function(e) {
@@ -42,11 +44,14 @@
         $("#addSubObjective").click(function(e) {
             e.preventDefault();
             $(".objective-details").load(appSettings.Urls.addSubObjective +
-                "?parentId=" + selectedNode.id +
-                "&objectiveName=" + selectedNode.name,
-            function() {
+                "?parentId=" + selectedNode.id,
+                function() {
                     sendFormData(".tree-view", "#CreateObjectiveForm");
                 });
+        });
+        $("#deleteObjective").click(function(e) {
+            e.preventDefault();
+            deleteObjectiveRequest(".tree-view");
         });
     </script>
 }

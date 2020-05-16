@@ -13,8 +13,7 @@ namespace ObjectiveManagement.DataAccess
         IQueryable<T> Get<T>(Expression<Func<T, bool>> selector) where T : class, IEntity;
         Task<Guid> AddAsync<T>(T newEntity) where T : class, IEntity;
         Task AddRangeAsync<T>(IEnumerable<T> newEntities) where T : class, IEntity;
-        Task DeleteAsync<T>(Guid id) where T : class, IEntity;
-        Task RemoveAsync<T>(T entity) where T : class, IEntity;
+        Task RemoveAsync<T>(Guid id) where T : class, IEntity;
         Task RemoveRangeAsync<T>(IEnumerable<T> entities) where T : class, IEntity;
         Task UpdateAsync<T>(T entity) where T : class, IEntity;
         Task UpdateRangeAsync<T>(IEnumerable<T> entities) where T : class, IEntity;

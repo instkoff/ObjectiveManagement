@@ -6,6 +6,5 @@ namespace ObjectiveManagement.DataAccess.Entities
     {
         public Guid Id { get; set; }
         public DateTime CreatedTime { get; set; } = DateTime.Now;
-        public bool IsActive { get; set; } = true;
     }
 }

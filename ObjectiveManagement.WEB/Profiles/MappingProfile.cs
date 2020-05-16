@@ -13,13 +13,15 @@ namespace ObjectiveManagement.Web.Profiles
             CreateMap<ObjectiveEntity, ObjectiveModel>()
                 .ForMember(dest=>dest.CreatedTime, opt=>opt.MapFrom(src=>src.CreatedTime.ToString("yyyy-MM-ddThh:mm")))
                 .ForMember(dest=>dest.CompletedTime, opt=>opt.MapFrom(src=>src.CompletedTime.ToString("yyyy-MM-ddThh:mm")));
+
             CreateMap<ObjectiveModel, ObjectiveEntity>()
                 .ForMember(dest => dest.CompletedTime, opt => opt.MapFrom(src => DateTime.Parse(src.CompletedTime)))
                 .AfterMap((src, dest) => dest.CreatedTime = DateTime.Now);
+
             CreateMap<ObjectiveEntity, MenuItemModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.parent, opt => opt.MapFrom(src => src.ParentId == null ? "#" : src.ParentId.ToString()))
+                .ForMember(dest => dest.Parent, opt => opt.MapFrom(src => src.ParentId == null ? "#" : src.ParentId.ToString()))
                 .AfterMap((src,dest)=>
                 {
                     dest.Icon = src.ObjectiveStatus switch
@@ -30,22 +32,9 @@ namespace ObjectiveManagement.Web.Profiles
                         ObjectiveStatus.Completed => "/img/task_completed.png",
                         _ => "/img/task_assigned.png",
                     };
-                    //dest.a_attr.Href = "/api/Home/id?id=" + dest.Id;
                     if (src.SubObjectives.Any()) 
                         dest.Children = true;
                 });
         }
-        //private class CustomResolver : IValueResolver<ObjectiveEntity, ObjectiveModel, int>
-        //{
-        //    public int Resolve(ObjectiveEntity source, ObjectiveModel destination, int totalTime, ResolutionContext context)
-        //    {
-        //        return CalculateEstimateTime(source);
-        //    }
-
-        //    private int CalculateEstimateTime(ObjectiveEntity data)
-        //    {
-        //        return data.EstimateTime + data.SubObjectives.Sum(CalculateEstimateTime);
-        //    }
-        //}
     }
 }

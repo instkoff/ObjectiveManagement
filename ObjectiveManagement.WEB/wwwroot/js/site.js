@@ -7,8 +7,8 @@
 *
 */
 
-function DrawTreeMenu(treeSelector) {
-    $(treeSelector).jstree({
+function DrawTreeMenu(jsTreeSelector) {
+    $(jsTreeSelector).jstree({
         'core': {
             'data': {
                 'url': function (node) {
@@ -20,12 +20,13 @@ function DrawTreeMenu(treeSelector) {
             },
             "multiple": false,
             "animation": 50,
-            "themes.icons": false
+            "themes.icons": false,
+            'check_callback': true
         }
     });
 }
 
-function sendFormData(jstreeSelector, formSelector) {
+function sendFormData(jsTreeSelector, formSelector) {
     let form = $(formSelector);
     form.on("submit", function (e) {
         e.preventDefault();
@@ -40,14 +41,13 @@ function sendFormData(jstreeSelector, formSelector) {
                 objectiveStatus: 0,
                 createdTime: $("#CreatedTime").val()
             });
-            console.log(objective);
             $.ajax({
                 url: form.attr("action"),
                 data: objective,
                 type: "POST",
                 contentType: "application/json",
                 success: function (result) {
-                    refreshNode(result, jstreeSelector);
+                    refreshNode(result, jsTreeSelector);
                 },
                 error: function (result) {
                     console.log(result);
@@ -58,37 +58,47 @@ function sendFormData(jstreeSelector, formSelector) {
     });
 }
 
-function UpdateObjectiveRequest() {
-    $.ajax({
-        type: "PUT",
-        url: "/api/Home",
-        data: {
-            name: $("#Name").val(),
-            description: $("#Description").val(),
-            performers: $("#Performers").val(),
-            estimateTime: $("#TotalEstimateTime").val(),
-            factTime: 0,
-            objectiveStatus: 0,
-            CreatedTime: $("#CreatedTime").val()
-        },
-        success: function (result) {
-            refreshNode(result);
-        },
-        error: function (result) {
-            console.log(result);
-            alert("Ошибка добавления, заполните все поля!");
-        }
-    });
+function deleteObjectiveRequest(jsTreeSelector) {
+    let tree = $(jsTreeSelector).jstree(true);
+    let selectedNodeIdArr = tree.get_selected();
+    if (tree.is_parent(selectedNodeIdArr[0])) {
+        alert("Нельзя удалить задачу, если у неё есть подзадачи!");
+    } else {
+        $.ajax({
+            url: appSettings.Urls.deleteObjective,
+            type: "DELETE",
+            contentType: "application/json",
+            data: JSON.stringify(selectedNodeIdArr[0]),
+            success: function () {
+                tree.delete_node(selectedNodeIdArr[0]);
+            },
+            error: function (result) {
+                console.log(result);
+            }
+        });
+    }
+
 }
 
-function refreshNode(data, jstree) {
-    if (data.parent === "#") {
-        $(jstree).jstree(true).refresh();
+function refreshNode(newMenuItem, jsTreeSelector) {
+    if (newMenuItem.parent === "#") {
+        $(jsTreeSelector).jstree(true).refresh();
+        $(jsTreeSelector).on('refresh.jstree',
+            function () {
+                let newNode = $(jsTreeSelector).jstree(true).get_node(newMenuItem.id);
+                $(jsTreeSelector).jstree(true).deselect_all();
+                $(jsTreeSelector).jstree(true).select_node(newNode);
+            });
     } else {
-        let node = $(jstree).jstree(true).get_node(data.parent);
-        $(jstree).jstree(true).refresh_node(node);
-        $(jstree).jstree(true).open_node(node, false);
-        $(jstree).jstree(true).deselect_all();
+        let parentNode = $(jsTreeSelector).jstree(true).get_node(newMenuItem.parent);
+        $(jsTreeSelector).jstree(true).refresh_node(parentNode);
+        $(jsTreeSelector).on('refresh_node.jstree',
+            function (node, nodes) {
+                $(jsTreeSelector).jstree(true).open_node(node, false);
+                let newNode = $(jsTreeSelector).jstree(true).get_node(newMenuItem.id);
+                $(jsTreeSelector).jstree(true).deselect_all();
+                $(jsTreeSelector).jstree(true).select_node(newNode);
+            });
     }
 
 }

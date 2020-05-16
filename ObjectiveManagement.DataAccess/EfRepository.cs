@@ -19,12 +19,12 @@ namespace ObjectiveManagement.DataAccess
 
         public IQueryable<T> Get<T>() where T : class, IEntity
         {
-            return _context.Set<T>().Where(x => x.IsActive).AsQueryable();
+            return _context.Set<T>().AsQueryable();
         }
 
         public IQueryable<T> Get<T>(Expression<Func<T, bool>> selector) where T : class, IEntity
         {
-            return _context.Set<T>().Where(selector).Where(x => x.IsActive).AsQueryable();
+            return _context.Set<T>().Where(selector).AsQueryable();
         }
 
         public async Task<Guid> AddAsync<T>(T newEntity) where T : class, IEntity
@@ -38,15 +38,9 @@ namespace ObjectiveManagement.DataAccess
             await _context.Set<T>().AddRangeAsync(newEntities);
         }
 
-        public async Task DeleteAsync<T>(Guid id) where T : class, IEntity
+        public async Task RemoveAsync<T>(Guid id) where T : class, IEntity
         {
-            var activeEntity = await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
-            activeEntity.IsActive = false;
-            await Task.Run(() => _context.Update(activeEntity));
-        }
-
-        public async Task RemoveAsync<T>(T entity) where T : class, IEntity
-        {
+            var entity = await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
             await Task.Run(() => _context.Set<T>().Remove(entity));
         }
 

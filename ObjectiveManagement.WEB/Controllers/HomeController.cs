@@ -23,10 +23,10 @@ namespace ObjectiveManagement.Web.Controllers
         }
 
         [HttpGet("create_sub_objective")]
-        public IActionResult CreateSubObjective([FromQuery]Guid parentId, [FromQuery]string objectiveName)
+        public IActionResult CreateSubObjective([FromQuery]Guid parentId, [FromHeader]string objectiveName)
         {
             ViewBag.parentId = parentId;
-            ViewBag.objectiveName = objectiveName;
+            //ViewBag.objectiveName = objectiveName;
             return PartialView("_CreateObjective", new ObjectiveModel());
         }
 
