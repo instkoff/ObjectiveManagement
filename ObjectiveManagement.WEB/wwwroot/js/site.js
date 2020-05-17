@@ -7,12 +7,12 @@
 *
 */
 
-function DrawTreeMenu(jsTreeSelector) {
-    $(jsTreeSelector).jstree({
+function DrawTreeMenu(appSettings) {
+    $(appSettings.jsTreeSelector).jstree({
         'core': {
             'data': {
                 'url': function (node) {
-                    return node.id === "#" ? appSettings.Urls.getRootItems : appSettings.Urls.getChildrenItems + "?Id=" + node.id;
+                    return node.id === "#" ? appSettings.Urls.getRootItems : appSettings.Urls.getChildrenItems + node.id;
                 },
                 'data': function (node) {
                     return { 'id': node.id };
@@ -26,8 +26,8 @@ function DrawTreeMenu(jsTreeSelector) {
     });
 }
 
-function sendFormData(jsTreeSelector, formSelector) {
-    let form = $(formSelector);
+function sendFormData(appSettings) {
+    let form = $(appSettings.FormSelector);
     form.on("submit", function (e) {
         e.preventDefault();
         if (form.valid()) {
@@ -47,7 +47,7 @@ function sendFormData(jsTreeSelector, formSelector) {
                 type: "POST",
                 contentType: "application/json",
                 success: function (result) {
-                    refreshNode(result, jsTreeSelector);
+                    refreshNode(result, appSettings);
                 },
                 error: function (result) {
                     console.log(result);
@@ -58,10 +58,10 @@ function sendFormData(jsTreeSelector, formSelector) {
     });
 }
 
-function deleteObjectiveRequest(jsTreeSelector) {
-    let tree = $(jsTreeSelector).jstree(true);
-    let selectedNodeIdArr = tree.get_selected();
-    if (tree.is_parent(selectedNodeIdArr[0])) {
+function deleteObjectiveRequest(appSettings) {
+    let jsTreeInstance = $(appSettings.jsTreeSelector).jstree(true);
+    let selectedNodeIdArr = jsTreeInstance.get_selected();
+    if (jsTreeInstance.is_parent(selectedNodeIdArr[0])) {
         alert("Нельзя удалить задачу, если у неё есть подзадачи!");
     } else {
         $.ajax({
@@ -70,7 +70,7 @@ function deleteObjectiveRequest(jsTreeSelector) {
             contentType: "application/json",
             data: JSON.stringify(selectedNodeIdArr[0]),
             success: function () {
-                tree.delete_node(selectedNodeIdArr[0]);
+                jsTreeInstance.delete_node(selectedNodeIdArr[0]);
             },
             error: function (result) {
                 console.log(result);
@@ -80,24 +80,25 @@ function deleteObjectiveRequest(jsTreeSelector) {
 
 }
 
-function refreshNode(newMenuItem, jsTreeSelector) {
+function refreshNode(newMenuItem, appSettings) {
+    let jsTreeInstance = $(appSettings.jsTreeSelector).jstree(true);
     if (newMenuItem.parent === "#") {
-        $(jsTreeSelector).jstree(true).refresh();
-        $(jsTreeSelector).on('refresh.jstree',
+        jsTreeInstance.refresh();
+        $(appSettings.jsTreeSelector).on('refresh.jstree',
             function () {
-                let newNode = $(jsTreeSelector).jstree(true).get_node(newMenuItem.id);
-                $(jsTreeSelector).jstree(true).deselect_all();
-                $(jsTreeSelector).jstree(true).select_node(newNode);
+                let newNode = jsTreeInstance.get_node(newMenuItem.id);
+                jsTreeInstance.deselect_all();
+                jsTreeInstance.select_node(newNode);
             });
     } else {
-        let parentNode = $(jsTreeSelector).jstree(true).get_node(newMenuItem.parent);
-        $(jsTreeSelector).jstree(true).refresh_node(parentNode);
-        $(jsTreeSelector).on('refresh_node.jstree',
+        let parentNode = jsTreeInstance.get_node(newMenuItem.parent);
+        jsTreeInstance.refresh_node(parentNode);
+        $(appSettings.jsTreeSelector).on('refresh_node.jstree',
             function (node, nodes) {
-                $(jsTreeSelector).jstree(true).open_node(node, false);
-                let newNode = $(jsTreeSelector).jstree(true).get_node(newMenuItem.id);
-                $(jsTreeSelector).jstree(true).deselect_all();
-                $(jsTreeSelector).jstree(true).select_node(newNode);
+                jsTreeInstance.open_node(node, false);
+                let newNode = jsTreeInstance.get_node(newMenuItem.id);
+                jsTreeInstance.deselect_all();
+                jsTreeInstance.select_node(newNode);
             });
     }
 

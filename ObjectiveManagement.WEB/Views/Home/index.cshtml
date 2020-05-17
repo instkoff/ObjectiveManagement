@@ -18,40 +18,56 @@
         var appSettings = appSettings || {};
         appSettings.Urls = appSettings.Urls || {};
         appSettings.Urls.getRootItems = "@Url.Action("GetRoot", "Menu")";
-        appSettings.Urls.getChildrenItems = "@Url.Action("GetChildren", "Menu")";
-        appSettings.Urls.getObjective = "@Url.Action("GetObjective", "Home")";
+        appSettings.Urls.getChildrenItems = "@Url.Action("GetChildren", "Menu")?Id=";
+        appSettings.Urls.getObjective = "@Url.Action("GetObjective", "Home")?Id=";
         appSettings.Urls.addObjective = "@Url.Action("CreateObjective", "Home")";
-        appSettings.Urls.addSubObjective = "@Url.Action("CreateSubObjective", "Home")";
+        appSettings.Urls.addSubObjective = "@Url.Action("CreateSubObjective", "Home")?parentId=";
         appSettings.Urls.deleteObjective = "@Url.Action("Delete", "Objective")";
-
+        appSettings.jsTreeSelector = ".tree-view";
+        appSettings.FormSelector = "#CreateObjectiveForm";
+        appSettings.objectiveDetailsWindow = ".objective-details";
+        
         let selectedNode = {};
-        DrawTreeMenu(".tree-view");
 
-        $(".tree-view").on('select_node.jstree',
+        DrawTreeMenu(appSettings);
+        $(document).ready(function () {
+            $("#addSubObjective").hide();
+            $("#deleteObjective").hide();
+            sendFormData(appSettings);
+        });
+
+        $(appSettings.jsTreeSelector).on("select_node.jstree",
             function(e, data) {
-                $(".objective-details").load(appSettings.Urls.getObjective + "?Id=" + data.node.id);
+                $(appSettings.objectiveDetailsWindow).load(appSettings.Urls.getObjective + data.node.id);
                 console.log(data.node);
-                selectedNode.id = data.node.id;
+                selectedNode = data.node;
+                let jsTreeInstance = $(appSettings.jsTreeSelector).jstree(true);
+                if (jsTreeInstance.is_parent(selectedNode)) {
+                    $("#addSubObjective").show();
+                    $("#deleteObjective").hide();
+                } else {
+                    $("#addSubObjective").show();
+                    $("#deleteObjective").show();
+                }
             });
 
         $("#addObjective").click(function(e) {
             e.preventDefault();
-            $(".objective-details").load(appSettings.Urls.addObjective,
+            $(appSettings.objectiveDetailsWindow).load(appSettings.Urls.addObjective,
                 function() {
-                    sendFormData(".tree-view", "#CreateObjectiveForm");
+                    sendFormData(appSettings);
                 });
         });
         $("#addSubObjective").click(function(e) {
             e.preventDefault();
-            $(".objective-details").load(appSettings.Urls.addSubObjective +
-                "?parentId=" + selectedNode.id,
+            $(appSettings.objectiveDetailsWindow).load(appSettings.Urls.addSubObjective + selectedNode.id,
                 function() {
-                    sendFormData(".tree-view", "#CreateObjectiveForm");
+                    sendFormData(appSettings);
                 });
         });
         $("#deleteObjective").click(function(e) {
             e.preventDefault();
-            deleteObjectiveRequest(".tree-view");
+            deleteObjectiveRequest(appSettings);
         });
     </script>
 }
