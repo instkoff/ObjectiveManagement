@@ -2,57 +2,48 @@
 <div class="title">Детали задачи:</div>
 <form class="content-form" id="ObjectiveDetailsForm" asp-action="Update" asp-controller="Objective">
     <div class="objective-details-item">
-        <input asp-for="Name" class="objective-details-input" placeholder="Наименование задачи" value="@Model.Name" />
+        <input asp-for="Name" class="objective-details-input" id="Name" value="@Model.Name" />
     </div>
     <div class="objective-details-item">
-        <textarea asp-for="Description" class="objective-details-input" placeholder="Описание задачи" cols="30" rows="10">@Model.Description</textarea>
+        <textarea asp-for="Description" class="objective-details-input" id="Description" cols="30" rows="10">@Model.Description</textarea>
     </div>
     <div class="objective-details-item">
-        <textarea asp-for="Performers" class="objective-details-input" placeholder="Список исполнителей" cols="10" rows="10">@Model.Performers</textarea>
+        <textarea asp-for="Performers" class="objective-details-input" id="Performers" cols="10" rows="10">@Model.Performers</textarea>
     </div>
     <div class="objective-details-item">
         <span class="date-time">
             <label asp-for="CreatedTime">Дата создания:</label>
-            <input asp-for="CreatedTime" class="objective-details-input date-input" id="createTime" value="@Model.CreatedTime" readonly />
+            <input asp-for="CreatedTime" class="objective-details-input date-input" id="CreatedTime" value="@Model.CreatedTime" readonly />
         </span>
         @if (Model.ObjectiveStatus == ObjectiveStatus.Completed)
         {
             <span class="date-time">
                 <label asp-for="CompletedTime">Дата завершения:</label>
-                <input asp-for="CompletedTime" class="objective-details-input date-input" id="completedTime" value="@Model.CompletedTime" readonly />
+                <input asp-for="CompletedTime" class="objective-details-input date-input" id="CompletedTime" value="@Model.CompletedTime" readonly />
             </span>
         }
     </div>
     <div class="objective-details-item">
-        <span class="quantity">
-            <input asp-for="EstimateTime" class="objective-details-input" value="@Model.EstimateTime" />
-        </span>
-        <span class="quantity">
-            <input asp-for="TotalSubObjectivesEstimateTime" class="objective-details-input" value="@Model.TotalSubObjectivesEstimateTime" readonly />
-        </span>
-        <span class="quantity">
-            <input asp-for="FactTime" class="objective-details-input" value="@Model.FactTime" />
-        </span>
-        <span class="quantity">
-            <input asp-for="TotalSubObjectivesFactTime" class="objective-details-input" value="@Model.TotalSubObjectivesFactTime" />
-        </span>
-
+        <div class="objective-details-item">
+            <span class="input-number">
+                <label for="EstimateTime">Плановое время выполнения:</label>
+                <input asp-for="EstimateTime" class="objective-details-input" id="EstimateTime" type="number" value="@Model.EstimateTime" />
+                <span class="inform-text">+@Model.TotalSubObjectivesEstimateTime от подзадач</span>
+            </span>
+            <span class="input-number">
+                <label for="FactTime">Фактическое время выполнения:</label>
+                <input asp-for="FactTime" class="objective-details-input" id="FactTime" type="number" value="@Model.FactTime" />
+                <span class="inform-text">+@Model.TotalSubObjectivesFactTime от подзадач</span>
+            </span>
+        </div>
     </div>
     <div class="objective-details-item">
         <div class="status-radio">
             <div class="title">Статус задачи:</div>
-            @*<input type="radio" id="AssignedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Assigned" checked />
-        <label for="AssignedChoice">Назначена</label>
-        <input type="radio" id="InProgressChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.InProgress" />
-        <label for="InProgressChoice">Выполняется</label>
-        <input type="radio" id="SuspendedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Suspended" />
-        <label for="SuspendedChoice">Приостановлена</label>
-        <input type="radio" id="CompletedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Completed" />
-        <label for="CompletedChoice">Завершена</label>*@
             @switch (Model.ObjectiveStatus)
             {
                 case ObjectiveStatus.Assigned:
-                    <input type="radio" id="AssignedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Assigned" checked />
+                    <input type="radio" id="AssignedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Assigned" />
                     <label for="AssignedChoice">Назначена</label>
                     <input type="radio" id="InProgressChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.InProgress" />
                     <label for="InProgressChoice">Выполняется</label>
@@ -78,8 +69,7 @@
             }
         </div>
     </div>
-
     <div class="actions">
-        <button class="button save-objective">Сохранить</button>
+        <input class="submit-button" type="submit" id="UpdateButton" value="Обновить" />
     </div>
 </form>

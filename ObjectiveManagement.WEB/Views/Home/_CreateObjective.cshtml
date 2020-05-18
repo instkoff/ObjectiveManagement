@@ -30,11 +30,11 @@ else
     </div>
     <div class="objective-details-item">
         <span class="quantity">
-            <input asp-for="EstimateTime" class="objective-details-input" id="EstimateTime" placeholder="Плановая трудоёмкость задачи" />
+            <input asp-for="EstimateTime" type="number" class="objective-details-input" id="EstimateTime" placeholder="Плановая трудоёмкость задачи" />
             <span asp-validation-for="EstimateTime"></span>
         </span>
     </div>
     <div class="actions">
-        <input type="submit" id="SaveButton" value="Создать задачу" />
+        <input class="submit-button" type="submit" id="SaveButton" value="Сохранить"/>
     </div>
 </form>

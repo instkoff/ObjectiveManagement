@@ -1,12 +1,4 @@
-﻿/*
-*
-* Custom quantity input
-* Element requires following HTML structure
-* <div class="quantity"><input type="number"/></div>
-* 
-*
-*/
-
+﻿"use strict";
 function DrawTreeMenu(appSettings) {
     $(appSettings.jsTreeSelector).jstree({
         'core': {
@@ -51,7 +43,40 @@ function sendFormData(appSettings) {
                 },
                 error: function (result) {
                     console.log(result);
-                    alert("Ошибка добавления, заполните все поля!");
+                    alert("Ошибка добавления");
+                }
+            });
+        }
+    });
+}
+function sendUpdateFormData(appSettings, selectedNode) {
+    let form = $("#ObjectiveDetailsForm");
+    form.on("submit", function (e) {
+        e.preventDefault();
+        if (form.valid()) {
+            let objective = JSON.stringify({
+                id: selectedNode.id,
+                parentId: selectedNode.parent === "#" ? null : selectedNode.parent,
+                name: $("#Name").val(),
+                description: $("#Description").val(),
+                performers: $("#Performers").val(),
+                estimateTime: $("#EstimateTime").val(),
+                factTime: $("#FactTime").val(),
+                objectiveStatus: $("input[name='ObjectiveStatus']:checked").val(),
+                completedTime: $("#CompletedTime").val()
+            });
+            $.ajax({
+                url: form.attr("action"),
+                data: objective,
+                type: "PUT",
+                contentType: "application/json",
+                success: function () {
+                    let jsTreeInstance = $(appSettings.jsTreeSelector).jstree(true);
+                    jsTreeInstance.redraw();
+                },
+                error: function (result) {
+                    console.log(result);
+                    alert("Ошибка добавления");
                 }
             });
         }
@@ -61,6 +86,7 @@ function sendFormData(appSettings) {
 function deleteObjectiveRequest(appSettings) {
     let jsTreeInstance = $(appSettings.jsTreeSelector).jstree(true);
     let selectedNodeIdArr = jsTreeInstance.get_selected();
+    let parentNode = jsTreeInstance.get_prev_dom(selectedNodeIdArr[0]);
     if (jsTreeInstance.is_parent(selectedNodeIdArr[0])) {
         alert("Нельзя удалить задачу, если у неё есть подзадачи!");
     } else {
@@ -71,13 +97,13 @@ function deleteObjectiveRequest(appSettings) {
             data: JSON.stringify(selectedNodeIdArr[0]),
             success: function () {
                 jsTreeInstance.delete_node(selectedNodeIdArr[0]);
+                jsTreeInstance.select_node(parentNode);
             },
             error: function (result) {
                 console.log(result);
             }
         });
     }
-
 }
 
 function refreshNode(newMenuItem, appSettings) {

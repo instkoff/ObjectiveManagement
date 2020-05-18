@@ -38,17 +38,20 @@
 
         $(appSettings.jsTreeSelector).on("select_node.jstree",
             function(e, data) {
-                $(appSettings.objectiveDetailsWindow).load(appSettings.Urls.getObjective + data.node.id);
-                console.log(data.node);
-                selectedNode = data.node;
-                let jsTreeInstance = $(appSettings.jsTreeSelector).jstree(true);
-                if (jsTreeInstance.is_parent(selectedNode)) {
-                    $("#addSubObjective").show();
-                    $("#deleteObjective").hide();
-                } else {
-                    $("#addSubObjective").show();
-                    $("#deleteObjective").show();
-                }
+                $(appSettings.objectiveDetailsWindow).load(appSettings.Urls.getObjective + data.node.id,
+                    function () {
+                        selectedNode = data.node;
+                        sendUpdateFormData(appSettings, selectedNode);
+                        console.log(data.node);
+                        let jsTreeInstance = $(appSettings.jsTreeSelector).jstree(true);
+                        if (jsTreeInstance.is_parent(selectedNode)) {
+                            $("#addSubObjective").show();
+                            $("#deleteObjective").hide();
+                        } else {
+                            $("#addSubObjective").show();
+                            $("#deleteObjective").show();
+                        }
+                    });
             });
 
         $("#addObjective").click(function(e) {

@@ -68,13 +68,16 @@
                         </span>
                     </div>
                     <div class="objective-details-item">
-                        <span>
-                            <input class="objective-details-input" type="number" placeholder="Плановая трудоёмкость задачи"/>
+                        <span class="input-number">
+                            <label for="estimateTime">Плановое время выполнения:</label>
+                            <input class="objective-details-input" id="estimateTime" type="number"/>
+                            <span class="inform-text">+35 от подзадач</span>
                         </span>
-                        <span>
-                            <input class="objective-details-input" type="number" placeholder="Фактическое время выполнения"/>
+                        <span class="input-number">
+                            <label for="factTime">Фактическое время выполнения:</label>
+                            <input class="objective-details-input" id="factTime" type="number"/>
+                            <span class="inform-text">+35 от подзадач</span>
                         </span>
-                           
                     </div>
                     <div class="objective-details-item">
                         <div class="status-radio">
@@ -90,7 +93,7 @@
                     </div>
                         
                     <div class="actions">
-                        <button class="save-button">Сохранить</button>
+                        <input class="submit-button" type="submit" id="SaveButton" value="Сохранить" />
                     </div>
         
                 </form>
