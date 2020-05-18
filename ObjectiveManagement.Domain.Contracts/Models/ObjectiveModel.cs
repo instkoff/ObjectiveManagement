@@ -22,7 +22,6 @@ namespace ObjectiveManagement.Domain.Contracts.Models
         public int FactTime { get; set; }
         [Required(ErrorMessage = "Статус должен быть проставлен")]
         public ObjectiveStatus ObjectiveStatus { get; set; }
-        [Required(ErrorMessage = "Время создания должно быть установлено")]
         public string CreatedTime { get; set; }
         public string CompletedTime { get; set; }
         public Guid? ParentId { get; set; }

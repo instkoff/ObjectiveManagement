@@ -42,12 +42,13 @@ namespace ObjectiveManagement.Domain.Implementations
 
         public async Task<Guid> Update(ObjectiveModel objectiveModel)
         {
-            var entity = _mapper.Map<ObjectiveEntity>(objectiveModel);
-            if (entity == null) return Guid.Empty;
-            await _dbRepository.UpdateAsync(entity);
+            var entityForUpdate = _dbRepository
+                .Get<ObjectiveEntity>()
+                .FirstOrDefault(x => x.Id == objectiveModel.Id);
+            _mapper.Map(objectiveModel, entityForUpdate);
+            if (entityForUpdate == null) return Guid.Empty;
             await _dbRepository.SaveChangesAsync();
-
-            return entity.Id;
+            return entityForUpdate.Id;
         }
 
         public ObjectiveModel Get(Guid id)
