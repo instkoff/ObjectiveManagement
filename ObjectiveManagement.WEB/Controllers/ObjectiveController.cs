@@ -29,6 +29,7 @@ namespace ObjectiveManagement.Web.Controllers
             return Ok(result);
 
         }
+
         [HttpPut]
         public async Task<ActionResult> Update([FromBody]ObjectiveModel model)
         {
@@ -41,6 +42,7 @@ namespace ObjectiveManagement.Web.Controllers
 
             return Ok(result);
         }
+
         [HttpDelete]
         public async Task<ActionResult<bool>> Delete([FromBody]Guid id)
         {
@@ -48,8 +50,8 @@ namespace ObjectiveManagement.Web.Controllers
             if (result) return Ok();
             _logger.LogError("Ошибка при удалении задачи.");
             throw new ObjectiveNotFoundException("Задача не найдена или у задачи есть подзадачи.");
-
         }
+
         [HttpGet("get_all")]
         public ActionResult<List<ObjectiveModel>> GetAllActiveObjectivesApi()
         {

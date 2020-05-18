@@ -49,10 +49,19 @@ function sendFormData(appSettings) {
         }
     });
 }
-function sendUpdateFormData(appSettings, selectedNode) {
+function updateFormDataEvent(appSettings, selectedNode) {
     let form = $("#ObjectiveDetailsForm");
     form.on("submit", function (e) {
         e.preventDefault();
+        let jsTreeInstance = $(appSettings.jsTreeSelector).jstree(true);
+        let canUpdateStatus;
+        jsTreeInstance.load_node(selectedNode,
+            function(node, status) {
+                canUpdateStatus = checkStatus(node, jsTreeInstance, true); 
+            });
+        if (!canUpdateStatus) {
+            alert("Ошибка!");
+        }
         if (form.valid()) {
             let objective = JSON.stringify({
                 id: selectedNode.id,
@@ -71,16 +80,32 @@ function sendUpdateFormData(appSettings, selectedNode) {
                 type: "PUT",
                 contentType: "application/json",
                 success: function () {
-                    let jsTreeInstance = $(appSettings.jsTreeSelector).jstree(true);
-                    jsTreeInstance.redraw();
+                    selectedNode.parent === "#" ? jsTreeInstance.refresh() : jsTreeInstance.refresh_node(selectedNode.parent);
                 },
                 error: function (result) {
                     console.log(result);
-                    alert("Ошибка добавления");
+                    alert("Ошибка обновления");
                 }
             });
         }
     });
+}
+
+function checkStatus(node, jsTree, status) {
+    for (let i = 0; i < node.children.length; i++) {
+        let fullNode = jsTree.get_node(node.children[i]);
+        if (fullNode.data !== "Completed") {
+            status = false;
+        } else {
+            status = true;
+        }
+        if (status === true) {
+            return checkStatus(node.children[i].children, jsTree, status);
+        } else {
+            return false;
+        }
+    }
+    return status;
 }
 
 function deleteObjectiveRequest(appSettings) {

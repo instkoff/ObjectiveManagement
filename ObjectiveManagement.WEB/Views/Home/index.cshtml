@@ -41,7 +41,7 @@
                 $(appSettings.objectiveDetailsWindow).load(appSettings.Urls.getObjective + data.node.id,
                     function () {
                         selectedNode = data.node;
-                        sendUpdateFormData(appSettings, selectedNode);
+                        updateFormDataEvent(appSettings, selectedNode);
                         console.log(data.node);
                         let jsTreeInstance = $(appSettings.jsTreeSelector).jstree(true);
                         if (jsTreeInstance.is_parent(selectedNode)) {

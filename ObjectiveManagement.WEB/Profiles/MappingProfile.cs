@@ -22,6 +22,7 @@ namespace ObjectiveManagement.Web.Profiles
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Parent, opt => opt.MapFrom(src => src.ParentId == null ? "#" : src.ParentId.ToString()))
+                .ForMember(dest=>dest.Data, opt=>opt.MapFrom(src=>src.ObjectiveStatus.ToString()))
                 .AfterMap((src,dest)=>
                 {
                     dest.Icon = src.ObjectiveStatus switch
