@@ -11,12 +11,30 @@ namespace ObjectiveManagement.Web.Profiles
         public MappingProfile()
         {
             CreateMap<ObjectiveEntity, ObjectiveModel>()
-                .ForMember(dest=>dest.CreatedTime, opt=>opt.MapFrom(src=>src.CreatedTime.ToString("yyyy-MM-ddThh:mm")))
-                .ForMember(dest=>dest.CompletedTime, opt=>opt.MapFrom(src=>src.CompletedTime.ToString("yyyy-MM-ddThh:mm")));
+                .ForMember(dest=>dest.CreatedTime, opt=>opt.MapFrom(src=>src.CreatedTime.ToString("f")))
+                .ForMember(dest=>dest.CompletedTime, opt=>opt.MapFrom(src=>src.CompletedTime.ToString("f")))
+                .AfterMap((src, dest) =>
+                {
+                    if (dest.SubObjectives.Any())
+                    {
+                        foreach (var objective in dest.SubObjectives)
+                        {
+                            if (objective.ObjectiveStatus != ObjectiveStatus.Completed)
+                            {
+                                dest.CanComplete = false;
+                                return;
+                            }
+                            dest.CanComplete = true;
+                        }
+                    }
+                    else
+                    {
+                        dest.CanComplete = true;
+                    }
+                });
 
             CreateMap<ObjectiveModel, ObjectiveEntity>()
-                .ForMember(dest => dest.CompletedTime, opt => opt.MapFrom(src => DateTime.Parse(src.CompletedTime)))
-                .AfterMap((src, dest) => dest.CreatedTime = DateTime.Now);
+                .ForMember(dest => dest.CompletedTime, opt => opt.MapFrom(src => DateTime.Parse(src.CompletedTime)));
 
             CreateMap<ObjectiveEntity, MenuItemModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))

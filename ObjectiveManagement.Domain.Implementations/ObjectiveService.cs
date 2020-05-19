@@ -45,8 +45,15 @@ namespace ObjectiveManagement.Domain.Implementations
             var entityForUpdate = _dbRepository
                 .Get<ObjectiveEntity>()
                 .FirstOrDefault(x => x.Id == objectiveModel.Id);
-            _mapper.Map(objectiveModel, entityForUpdate);
             if (entityForUpdate == null) return Guid.Empty;
+            if (objectiveModel.ObjectiveStatus == ObjectiveStatus.Completed)
+            {
+                var now = DateTime.Now;
+                objectiveModel.CompletedTime = now.ToString("f");
+                var createdTime = entityForUpdate.CreatedTime;
+                objectiveModel.FactTime = (int)now.Subtract(createdTime).TotalHours;
+            }
+            _mapper.Map(objectiveModel, entityForUpdate);
             await _dbRepository.SaveChangesAsync();
             return entityForUpdate.Id;
         }
@@ -61,12 +68,18 @@ namespace ObjectiveManagement.Domain.Implementations
             var model = _mapper.Map<ObjectiveModel>(entity);
             model.TotalSubObjectivesEstimateTime += CalculateEstimateTime(model);
             model.TotalSubObjectivesEstimateTime -= model.EstimateTime;
+            model.TotalSubObjectivesFactTime += CalculateFactTime(model);
+            model.TotalSubObjectivesFactTime -= model.FactTime;
             return model;
         }
 
         private int CalculateEstimateTime(ObjectiveModel data)
         {
             return data.EstimateTime + data.SubObjectives.Sum(CalculateEstimateTime);
+        }
+        private int CalculateFactTime(ObjectiveModel data)
+        {
+            return data.FactTime + data.SubObjectives.Sum(CalculateFactTime);
         }
 
         public List<ObjectiveModel> GetAllActive()

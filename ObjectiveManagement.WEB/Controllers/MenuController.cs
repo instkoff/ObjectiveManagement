@@ -21,8 +21,9 @@ namespace ObjectiveManagement.Web.Controllers
 
             if (menuItems == null)
             {
-                return BadRequest("Objectives not found.");
+                return Ok();
             }
+
             return Ok(menuItems);
         }
         [HttpGet("get_children")]
@@ -34,6 +35,7 @@ namespace ObjectiveManagement.Web.Controllers
             {
                 return BadRequest("Objectives not found.");
             }
+
             return Ok(menuItems);
         }
 

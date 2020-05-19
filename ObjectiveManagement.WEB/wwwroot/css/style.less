@@ -191,11 +191,12 @@ section {
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
-                        width: 30%;
+                        align-items: center;
+                        min-width: 35%;
                         text-align: center;
-                        .inform-text {
-                            margin-top: 5px;
-                            color: green;
+                        input {
+                            width: 80%;
+                            text-align: center;
                         }
                     }
                     .status-radio{
@@ -231,8 +232,13 @@ section {
                             border: 0;
                             overflow: hidden;
                             &:checked + label {
-                                background-color: @bg-color - 10;
+                                background-color: @bg-color - 20;
                                 box-shadow: none;
+                            }
+                            &:disabled + label{
+                                opacity: 70%;
+                                border-style: 1px solid;
+                                border-color: red;
                             }
                         }
 
@@ -270,6 +276,13 @@ section {
                       }
                 }
 
+            }
+            .inform-text {
+                margin-top: 5px;
+                color: green;
+            }
+            .warning-text {
+                color: red;
             }
         }
 

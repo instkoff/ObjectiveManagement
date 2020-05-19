@@ -1,6 +1,8 @@
+using System.Globalization;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,7 +30,10 @@ namespace ObjectiveManagement.WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddNewtonsoftJson();
+            services.AddLocalization(opt => opt.ResourcesPath = "Resources");
+            services.AddControllersWithViews()
+                .AddViewLocalization()
+                .AddNewtonsoftJson();
             services.AddAutoMapper(typeof(Startup));
             services.AddSwagger();
             services.AddDatabase(Configuration);
@@ -44,14 +49,23 @@ namespace ObjectiveManagement.WEB
             {
                 app.UseDeveloperExceptionPage();
             }
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en"),
+                new CultureInfo("ru")
+            };
 
             loggerFactory.AddSerilog();
-
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("ru"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseSwagger();
             app.UseSwaggerUI(x =>
             {

@@ -1,75 +1,87 @@
-﻿@model ObjectiveModel
-<div class="title">Детали задачи:</div>
+﻿@inject IHtmlLocalizer<SharedResource> Localizer
+@model ObjectiveModel
+<div class="title">@Localizer["ObjectiveDetailsTitle"]</div>
 <form class="content-form" id="ObjectiveDetailsForm" asp-action="Update" asp-controller="Objective">
     <div class="objective-details-item">
-        <input asp-for="Name" class="objective-details-input" id="Name" value="@Model.Name" />
+        <input asp-for="Name" class="objective-details-input" id="Name" placeholder="@Localizer["ObjectiveName"]" value="@Model.Name" />
     </div>
     <div class="objective-details-item">
-        <textarea asp-for="Description" class="objective-details-input" id="Description" cols="30" rows="10">@Model.Description</textarea>
+        <textarea asp-for="Description" class="objective-details-input" id="Description" placeholder="@Localizer["ObjectiveDescription"]" rows="8" maxlength="1000">@Model.Description</textarea>
     </div>
     <div class="objective-details-item">
-        <textarea asp-for="Performers" class="objective-details-input" id="Performers" cols="10" rows="10">@Model.Performers</textarea>
+        <textarea asp-for="Performers" class="objective-details-input" id="Performers" rows="5" maxlength="280" placeholder="@Localizer["ObjectivePerformers"]" required>@Model.Performers</textarea>
     </div>
     <div class="objective-details-item">
         <span class="date-time">
-            <label asp-for="CreatedTime">Дата создания:</label>
+            <label asp-for="CreatedTime">@Localizer["CreatedTime"]</label>
             <input asp-for="CreatedTime" class="objective-details-input date-input" id="CreatedTime" value="@Model.CreatedTime" readonly />
         </span>
         @if (Model.ObjectiveStatus == ObjectiveStatus.Completed)
         {
             <span class="date-time">
-                <label asp-for="CompletedTime">Дата завершения:</label>
+                <label asp-for="CompletedTime">@Localizer["CompletedTime"]</label>
                 <input asp-for="CompletedTime" class="objective-details-input date-input" id="CompletedTime" value="@Model.CompletedTime" readonly />
             </span>
         }
     </div>
     <div class="objective-details-item">
-        <div class="objective-details-item">
-            <span class="input-number">
-                <label for="EstimateTime">Плановое время выполнения:</label>
-                <input asp-for="EstimateTime" class="objective-details-input" id="EstimateTime" type="number" value="@Model.EstimateTime" />
-                <span class="inform-text">+@Model.TotalSubObjectivesEstimateTime от подзадач</span>
-            </span>
-            <span class="input-number">
-                <label for="FactTime">Фактическое время выполнения:</label>
-                <input asp-for="FactTime" class="objective-details-input" id="FactTime" type="number" value="@Model.FactTime" />
-                <span class="inform-text">+@Model.TotalSubObjectivesFactTime от подзадач</span>
-            </span>
-        </div>
+        <span class="input-number">
+            <label for="EstimateTime">@Localizer["EstimateTime"]</label>
+            <input asp-for="EstimateTime" class="objective-details-input" id="EstimateTime" type="number" value="@Model.EstimateTime" required />
+            <span class="inform-text">+@Model.TotalSubObjectivesEstimateTime @Localizer["AdditionalTime"]</span>
+        </span>
+        <span class="input-number">
+            <label for="FactTime">@Localizer["FactTime"]</label>
+            <input asp-for="FactTime" class="objective-details-input" id="FactTime" type="number" value="@Model.FactTime" />
+            <span class="inform-text">+@Model.TotalSubObjectivesFactTime @Localizer["AdditionalTime"]</span>
+        </span>
     </div>
     <div class="objective-details-item">
         <div class="status-radio">
-            <div class="title">Статус задачи:</div>
+            <div class="title">@Localizer["ObjectiveStatus"]</div>
             @switch (Model.ObjectiveStatus)
             {
+                //todo Спросить как можно переделать
                 case ObjectiveStatus.Assigned:
                     <input type="radio" id="AssignedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Assigned" />
-                    <label for="AssignedChoice">Назначена</label>
+                    <label for="AssignedChoice">@Localizer["AssignedChoice"]</label>
                     <input type="radio" id="InProgressChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.InProgress" />
-                    <label for="InProgressChoice">Выполняется</label>
+                    <label for="InProgressChoice">@Localizer["InProgressChoice"]</label>
                     break;
                 case ObjectiveStatus.InProgress:
                     <input type="radio" id="InProgressChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.InProgress" />
-                    <label for="InProgressChoice">Выполняется</label>
+                    <label for="InProgressChoice">@Localizer["InProgressChoice"]</label>
                     <input type="radio" id="SuspendedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Suspended" />
-                    <label for="SuspendedChoice">Приостановлена</label>
-                    <input type="radio" id="CompletedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Completed" />
-                    <label for="CompletedChoice">Завершена</label>
+                    <label for="SuspendedChoice">@Localizer["SuspendedChoice"]</label>
+                    if (Model.CanComplete)
+                    {
+                        <input type="radio" id="CompletedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Completed" />
+                        <label for="CompletedChoice">@Localizer["CompletedChoice"]</label>
+                    }
+                    else
+                    {
+                        <input type="radio" id="CompletedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Completed" disabled />
+                        <label for="CompletedChoice" title="Нельзя завершить пока есть не завершенные подзадачи" disabled>@Localizer["CompletedChoice"]</label>
+                    }
                     break;
                 case ObjectiveStatus.Suspended:
                     <input type="radio" id="InProgressChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.InProgress" />
-                    <label for="InProgressChoice">Выполняется</label>
+                    <label for="InProgressChoice">@Localizer["InProgressChoice"]</label>
                     <input type="radio" id="SuspendedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Suspended" />
-                    <label for="SuspendedChoice">Приостановлена</label>
+                    <label for="SuspendedChoice">@Localizer["SuspendedChoice"]</label>
                     break;
                 case ObjectiveStatus.Completed:
                     <input type="radio" id="CompletedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Completed" />
-                    <label for="CompletedChoice">Завершена</label>
+                    <label for="CompletedChoice">@Localizer["CompletedChoice"]</label>
                     break;
             }
         </div>
     </div>
-    <div class="actions">
-        <input class="submit-button" type="submit" id="UpdateButton" value="Обновить" />
-    </div>
+    @if (Model.ObjectiveStatus != ObjectiveStatus.Completed)
+    {
+        <div class="actions">
+            <input class="submit-button" type="submit" id="UpdateButton" value="@Localizer["UpdateButton"]" />
+        </div>
+    }
+
 </form>

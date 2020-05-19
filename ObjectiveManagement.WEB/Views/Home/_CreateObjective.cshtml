@@ -1,40 +1,42 @@
-﻿@model ObjectiveModel
+﻿@inject IHtmlLocalizer<SharedResource> Localizer
+@model ObjectiveModel
 
 @if (ViewBag.parentId == null)
 {
-    <div class="title">Добавить задачу:</div>
+    <div class="title">@Localizer["AddObjectiveTitle"]</div>
 }
 else
 {
-    <div class="title">Добавить подзадачу для: @ViewBag.parentId</div>
+    <div class="title">@Localizer["AddSubObjectiveTitle"] @ViewBag.parentId</div>
 }
 <form class="content-form" id="CreateObjectiveForm" asp-action="Create" asp-controller="Objective">
     <div class="objective-details-item">
-        <input asp-for="Name" class="objective-details-input" id="Name" placeholder="Наименование задачи" />
+        <input asp-for="Name" class="objective-details-input" id="Name" placeholder="@Localizer["ObjectiveName"]" required/>
         <span asp-validation-for="Name" class="text-danger"></span>
         <input asp-for="ParentId" class="objective-details-input" id="ParentId" value="@ViewBag.parentId" hidden/>
     </div>
     <div class="objective-details-item">
-        <textarea asp-for="Description" class="objective-details-input" id="Description" placeholder="Описание задачи" cols="30" rows="10"></textarea>
+        <textarea asp-for="Description" class="objective-details-input" id="Description" placeholder="@Localizer["ObjectiveDescription"]" rows="8" maxlength="1000"></textarea>
     </div>
     <div class="objective-details-item">
-        <textarea asp-for="Performers" class="objective-details-input" id="Performers" placeholder="Список исполнителей" cols="10" rows="10"></textarea>
+        <textarea asp-for="Performers" class="objective-details-input" id="Performers" placeholder="@Localizer["ObjectivePerformers"]" required rows="5" maxlength="280"></textarea>
         <span asp-validation-for="Performers"></span>
     </div>
-    <div class="objective-details-item" hidden>
+    <div class="objective-details-item">
         <span class="date-time">
-            <label for="CreatedTime">Дата создания:</label>
-            <input asp-for="CreatedTime" class="objective-details-input date-input" id="CreatedTime" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" readonly />
+            <label for="CreatedTime">@Localizer["CreatedTime"]</label>
+            <input asp-for="CreatedTime" class="objective-details-input date-input" id="CreatedTime" value="@DateTime.Now.ToString("f")" readonly />
             <span asp-validation-for="CreatedTime"></span>
         </span>
     </div>
     <div class="objective-details-item">
-        <span class="quantity">
-            <input asp-for="EstimateTime" type="number" class="objective-details-input" id="EstimateTime" placeholder="Плановая трудоёмкость задачи" />
+        <span class="input-number">
+            <label for="EstimateTime">@Localizer["EstimateTime"]</label>
+            <input asp-for="EstimateTime" class="objective-details-input" id="EstimateTime" type="number" value="@Model.EstimateTime" required />
             <span asp-validation-for="EstimateTime"></span>
         </span>
     </div>
     <div class="actions">
-        <input class="submit-button" type="submit" id="SaveButton" value="Сохранить"/>
+        <input class="submit-button" type="submit" id="SaveButton" value="@Localizer["SaveButton"]"/>
     </div>
 </form>

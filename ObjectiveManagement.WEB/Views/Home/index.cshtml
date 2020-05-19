@@ -1,8 +1,9 @@
-﻿<div class="main-window">
+﻿@inject IViewLocalizer Localizer
+<div class="main-window">
     <div class="menu box">
-        <a href="#" id="addObjective" class="button button-inline button-small button-inverse"><span>Добавить задачу</span></a>
-        <a href="#" id="addSubObjective" class="button button-inline button-small button-inverse"><span>Добавить подзадачу</span></a>
-        <a href="#" id="deleteObjective" class="button button-inline button-small button-inverse"><span>Удалить задачу</span></a>
+        <a href="#" id="addObjective" class="button button-inline button-small button-inverse"><span>@Localizer["AddObjectiveButton"]</span></a>
+        <a href="#" id="addSubObjective" class="button button-inline button-small button-inverse"><span>@Localizer["AddSubObjectiveButton"]</span></a>
+        <a href="#" id="deleteObjective" class="button button-inline button-small button-inverse"><span>@Localizer["DeleteObjectiveButton"]</span></a>
     </div>
     <div class="objective-details box">
         @{await Html.RenderPartialAsync("_CreateObjective", new ObjectiveModel());}
@@ -12,7 +13,7 @@
 
 @section scripts
 {
-    <partial name="_ValidationScriptsPartial"/>
+    <partial name="_ValidationScriptsPartial" />
     <script src="~/lib/jstree/dist/jstree.js"></script>
     <script type="text/javascript">
         var appSettings = appSettings || {};
@@ -26,7 +27,7 @@
         appSettings.jsTreeSelector = ".tree-view";
         appSettings.FormSelector = "#CreateObjectiveForm";
         appSettings.objectiveDetailsWindow = ".objective-details";
-        
+
         let selectedNode = {};
 
         DrawTreeMenu(appSettings);

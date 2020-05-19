@@ -51,17 +51,9 @@ function sendFormData(appSettings) {
 }
 function updateFormDataEvent(appSettings, selectedNode) {
     let form = $("#ObjectiveDetailsForm");
+    let jsTreeInstance = $(appSettings.jsTreeSelector).jstree(true);
     form.on("submit", function (e) {
         e.preventDefault();
-        let jsTreeInstance = $(appSettings.jsTreeSelector).jstree(true);
-        let canUpdateStatus;
-        jsTreeInstance.load_node(selectedNode,
-            function(node, status) {
-                canUpdateStatus = checkStatus(node, jsTreeInstance, true); 
-            });
-        if (!canUpdateStatus) {
-            alert("Ошибка!");
-        }
         if (form.valid()) {
             let objective = JSON.stringify({
                 id: selectedNode.id,
@@ -69,10 +61,11 @@ function updateFormDataEvent(appSettings, selectedNode) {
                 name: $("#Name").val(),
                 description: $("#Description").val(),
                 performers: $("#Performers").val(),
+                createdTime: $("#CreatedTime").val(),
+                completedTime: $("#CompletedTime").val(),
                 estimateTime: $("#EstimateTime").val(),
                 factTime: $("#FactTime").val(),
                 objectiveStatus: $("input[name='ObjectiveStatus']:checked").val(),
-                completedTime: $("#CompletedTime").val()
             });
             $.ajax({
                 url: form.attr("action"),
@@ -89,23 +82,6 @@ function updateFormDataEvent(appSettings, selectedNode) {
             });
         }
     });
-}
-
-function checkStatus(node, jsTree, status) {
-    for (let i = 0; i < node.children.length; i++) {
-        let fullNode = jsTree.get_node(node.children[i]);
-        if (fullNode.data !== "Completed") {
-            status = false;
-        } else {
-            status = true;
-        }
-        if (status === true) {
-            return checkStatus(node.children[i].children, jsTree, status);
-        } else {
-            return false;
-        }
-    }
-    return status;
 }
 
 function deleteObjectiveRequest(appSettings) {
