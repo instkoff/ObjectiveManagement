@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using ObjectiveManagement.Domain.Contracts.Models;
 
@@ -10,7 +9,6 @@ namespace ObjectiveManagement.Domain.Contracts
         Task<MenuItemModel> Create(ObjectiveModel objectiveModel);
         Task<Guid> Update(ObjectiveModel objectiveModel);
         ObjectiveModel Get(Guid id);
-        List<ObjectiveModel> GetAllActive();
         Task<bool> Delete(Guid id);
     }
 }

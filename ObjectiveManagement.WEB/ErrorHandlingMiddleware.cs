@@ -15,7 +15,7 @@ namespace ObjectiveManagement.Web
         
         public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
         {
-            this._next = next;
+            _next = next;
             _logger = logger;
         }
 

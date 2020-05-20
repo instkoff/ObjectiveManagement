@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -33,10 +32,6 @@ namespace ObjectiveManagement.DataAccess
             return entity.Entity.Id;
         }
 
-        public async Task AddRangeAsync<T>(IEnumerable<T> newEntities) where T : class, IEntity
-        {
-            await _context.Set<T>().AddRangeAsync(newEntities);
-        }
 
         public async Task RemoveAsync<T>(Guid id) where T : class, IEntity
         {
@@ -44,20 +39,12 @@ namespace ObjectiveManagement.DataAccess
             await Task.Run(() => _context.Set<T>().Remove(entity));
         }
 
-        public async Task RemoveRangeAsync<T>(IEnumerable<T> entities) where T : class, IEntity
-        {
-            await Task.Run(() => _context.Set<T>().RemoveRange(entities));
-        }
 
         public async Task UpdateAsync<T>(T entity) where T : class, IEntity
         {
             await Task.Run(() => _context.Set<T>().Update(entity));
         }
 
-        public async Task UpdateRangeAsync<T>(IEnumerable<T> entities) where T : class, IEntity
-        {
-            await Task.Run(() => _context.Set<T>().UpdateRange(entities));
-        }
 
         public async Task<int> SaveChangesAsync()
         {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -85,22 +84,6 @@ namespace ObjectiveManagement.Domain.Implementations
         private int CalculateFactTime(ObjectiveModel data)
         {
             return data.FactTime + data.SubObjectives.Sum(CalculateFactTime);
-        }
-
-        public List<ObjectiveModel> GetAllActive()
-        {
-            var entitiesCollection = _dbRepository
-                .Get<ObjectiveEntity>()
-                .Include(s=>s.SubObjectives)
-                .AsEnumerable()
-                .Where(p=>p.ParentId==null)
-                .ToList();
-            var result = _mapper.Map<List<ObjectiveModel>>(entitiesCollection);
-            if (result == null || !result.Any())
-            {
-                return null;
-            }
-            return result;
         }
 
         public async Task<bool> Delete(Guid id)

@@ -1,5 +1,8 @@
 ﻿namespace ObjectiveManagement.Domain.Contracts.Models
 {
+    /// <summary>
+    /// Класс элемента меню
+    /// </summary>
     public class MenuItemModel
     {
         public string Id { get; set; }
