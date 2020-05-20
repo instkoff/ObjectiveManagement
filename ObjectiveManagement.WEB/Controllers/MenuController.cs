@@ -18,24 +18,12 @@ namespace ObjectiveManagement.Web.Controllers
         public ActionResult GetRoot()
         {
             var menuItems = _menuService.GetTree();
-
-            if (menuItems == null)
-            {
-                return Ok();
-            }
-
             return Ok(menuItems);
         }
         [HttpGet("get_children")]
         public ActionResult GetChildren([FromQuery]Guid id)
         {
             var menuItems = _menuService.GetTree(id);
-
-            if (menuItems == null)
-            {
-                return BadRequest("Objectives not found.");
-            }
-
             return Ok(menuItems);
         }
 

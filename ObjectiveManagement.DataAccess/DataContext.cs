@@ -1,26 +1,15 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using ObjectiveManagement.DataAccess.Entities;
 
 namespace ObjectiveManagement.DataAccess
 {
     public class DataContext : DbContext
     {
-        //todo Не забыть отключить логгер
-        private readonly ILoggerFactory _loggerFactory;
         public DbSet<ObjectiveEntity> Objectives { get; set; }
-        public DataContext(DbContextOptions<DataContext> options, ILoggerFactory loggerFactory) : base(options)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-            _loggerFactory = loggerFactory;
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-
-            optionsBuilder.UseLoggerFactory(_loggerFactory);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

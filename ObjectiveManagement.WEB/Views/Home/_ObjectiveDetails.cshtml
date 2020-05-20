@@ -1,5 +1,6 @@
 ﻿@inject IHtmlLocalizer<SharedResource> Localizer
 @model ObjectiveModel
+
 <div class="title">@Localizer["ObjectiveDetailsTitle"]</div>
 <form class="content-form" id="ObjectiveDetailsForm" asp-action="Update" asp-controller="Objective">
     <div class="objective-details-item">
@@ -83,5 +84,4 @@
             <input class="submit-button" type="submit" id="UpdateButton" value="@Localizer["UpdateButton"]" />
         </div>
     }
-
 </form>

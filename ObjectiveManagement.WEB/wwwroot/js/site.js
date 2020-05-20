@@ -49,6 +49,7 @@ function sendFormData(appSettings) {
         }
     });
 }
+
 function updateFormDataEvent(appSettings, selectedNode) {
     let form = $("#ObjectiveDetailsForm");
     let jsTreeInstance = $(appSettings.jsTreeSelector).jstree(true);

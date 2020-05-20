@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using ObjectiveManagement.Domain.Contracts;
+using ObjectiveManagement.Domain.Contracts.Exceptions;
 using ObjectiveManagement.Domain.Contracts.Models;
 
 namespace ObjectiveManagement.Web.Controllers
@@ -23,10 +24,10 @@ namespace ObjectiveManagement.Web.Controllers
         }
 
         [HttpGet("create_sub_objective")]
-        public IActionResult CreateSubObjective([FromQuery]Guid parentId, [FromHeader]string objectiveName)
+        public IActionResult CreateSubObjective([FromQuery]Guid parentId, [FromHeader(Name = "Objective-name")]string objectiveName)
         {
             ViewBag.parentId = parentId;
-            //ViewBag.objectiveName = objectiveName;
+            ViewBag.objectiveName = objectiveName;
             return PartialView("_CreateObjective", new ObjectiveModel());
         }
 
@@ -42,11 +43,9 @@ namespace ObjectiveManagement.Web.Controllers
             var model = _objectiveService.Get(id);
 
             if (model == null)
-            {
-                return BadRequest("Objective not found");
-            }
+                throw new ObjectiveNotFoundException($"Objective not found by id {id}");
 
-            return PartialView("_ObjectiveDetails", model);
+                return PartialView("_ObjectiveDetails", model);
         }
 
     }

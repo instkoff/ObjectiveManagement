@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ObjectiveManagement.Domain.Contracts;
 using ObjectiveManagement.Domain.Implementations;
@@ -19,10 +18,6 @@ namespace ObjectiveManagement.WEB
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom
-                .Configuration(configuration)
-                .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
@@ -39,23 +34,21 @@ namespace ObjectiveManagement.WEB
             services.AddDatabase(Configuration);
             services.AddTransient<IObjectiveService, ObjectiveService>();
             services.AddTransient<IMenuService, MenuService>();
-            services.AddLogging();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            // if (env.IsDevelopment())
+            //     app.UseDeveloperExceptionPage();
+            // else
+                app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+            
             var supportedCultures = new[]
             {
                 new CultureInfo("en"),
                 new CultureInfo("ru")
             };
-
-            loggerFactory.AddSerilog();
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
                 DefaultRequestCulture = new RequestCulture("ru"),
@@ -63,9 +56,7 @@ namespace ObjectiveManagement.WEB
                 SupportedUICultures = supportedCultures
             });
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseSwagger();
             app.UseSwaggerUI(x =>
             {
@@ -73,7 +64,7 @@ namespace ObjectiveManagement.WEB
                 x.RoutePrefix = "swagger";
             });
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

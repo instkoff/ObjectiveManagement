@@ -33,7 +33,9 @@ namespace ObjectiveManagement.Domain.Implementations
                 var parentEntity = _dbRepository
                     .Get<ObjectiveEntity>(x => x.Id == objectiveModel.ParentId)
                     .Include(x => x.SubObjectives).FirstOrDefault();
-                parentEntity?.SubObjectives.Add(entity);
+                if (parentEntity == null) 
+                    return null;
+                parentEntity.SubObjectives.Add(entity);
             }
             await _dbRepository.SaveChangesAsync();
             var menuItem = _mapper.Map<MenuItemModel>(entity);
@@ -45,7 +47,8 @@ namespace ObjectiveManagement.Domain.Implementations
             var entityForUpdate = _dbRepository
                 .Get<ObjectiveEntity>()
                 .FirstOrDefault(x => x.Id == objectiveModel.Id);
-            if (entityForUpdate == null) return Guid.Empty;
+            if (entityForUpdate == null) 
+                return Guid.Empty;
             if (objectiveModel.ObjectiveStatus == ObjectiveStatus.Completed)
             {
                 var now = DateTime.Now;
@@ -65,6 +68,8 @@ namespace ObjectiveManagement.Domain.Implementations
                 .Include(s=>s.SubObjectives)
                 .ToList()
                 .FirstOrDefault(x => x.Id == id);
+            if (entity == null)
+                return null;
             var model = _mapper.Map<ObjectiveModel>(entity);
             model.TotalSubObjectivesEstimateTime += CalculateEstimateTime(model);
             model.TotalSubObjectivesEstimateTime -= model.EstimateTime;
@@ -104,7 +109,8 @@ namespace ObjectiveManagement.Domain.Implementations
                 .Get<ObjectiveEntity>()
                 .Include(s=>s.SubObjectives)
                 .FirstOrDefault(x => x.Id == id);
-            if ((entity != null && entity.SubObjectives.Any()) || entity == null) return false;
+            if (entity != null && entity.SubObjectives.Any() || entity == null) 
+                return false;
             await _dbRepository.RemoveAsync<ObjectiveEntity>(id);
             await _dbRepository.SaveChangesAsync();
             return true;

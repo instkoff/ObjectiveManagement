@@ -22,19 +22,7 @@ namespace ObjectiveManagement.Domain.Implementations
             _dbRepository = dbRepository;
             _menuItems = new List<MenuItemModel>();
         }
-
-        public List<MenuItemModel> GetMenuItemsList()
-        {
-            var entitiesCollection = _dbRepository
-                .Get<ObjectiveEntity>()
-                .ToList();
-            var menuItems = _mapper.Map<List<MenuItemModel>>(entitiesCollection);
-            if (menuItems == null || !menuItems.Any())
-            {
-                return null;
-            }
-            return menuItems;
-        }
+        
         public List<MenuItemModel> GetTree()
         {
             var entitiesCollection = _dbRepository
@@ -43,10 +31,6 @@ namespace ObjectiveManagement.Domain.Implementations
                 .Include(o=>o.SubObjectives)
                 .ToList();
             var menuItems = _mapper.Map<List<MenuItemModel>>(entitiesCollection);
-            if (menuItems == null || !menuItems.Any())
-            {
-                return null;
-            }
             return menuItems;
         }
 
@@ -58,10 +42,6 @@ namespace ObjectiveManagement.Domain.Implementations
                 .Where(o => o.ParentId == id)
                 .ToList();
             var menuItems = _mapper.Map<List<MenuItemModel>>(entitiesCollection);
-            if (menuItems == null || !menuItems.Any())
-            {
-                return null;
-            }
             return menuItems;
         }
 

@@ -6,7 +6,6 @@ namespace ObjectiveManagement.Domain.Contracts
 {
     public interface IMenuService
     {
-        List<MenuItemModel> GetMenuItemsList();
         List<MenuItemModel> GetTree();
         List<MenuItemModel> GetTree(Guid id);
     }

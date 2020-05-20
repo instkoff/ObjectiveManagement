@@ -16,17 +16,19 @@
     <partial name="_ValidationScriptsPartial" />
     <script src="~/lib/jstree/dist/jstree.js"></script>
     <script type="text/javascript">
-        var appSettings = appSettings || {};
-        appSettings.Urls = appSettings.Urls || {};
-        appSettings.Urls.getRootItems = "@Url.Action("GetRoot", "Menu")";
-        appSettings.Urls.getChildrenItems = "@Url.Action("GetChildren", "Menu")?Id=";
-        appSettings.Urls.getObjective = "@Url.Action("GetObjective", "Home")?Id=";
-        appSettings.Urls.addObjective = "@Url.Action("CreateObjective", "Home")";
-        appSettings.Urls.addSubObjective = "@Url.Action("CreateSubObjective", "Home")?parentId=";
-        appSettings.Urls.deleteObjective = "@Url.Action("Delete", "Objective")";
-        appSettings.jsTreeSelector = ".tree-view";
-        appSettings.FormSelector = "#CreateObjectiveForm";
-        appSettings.objectiveDetailsWindow = ".objective-details";
+        let appSettings = {
+            Urls : {
+                getRootItems : "@Url.Action("GetRoot", "Menu")",
+                getChildrenItems : "@Url.Action("GetChildren", "Menu")?Id=",
+                getObjective : "@Url.Action("GetObjective", "Home")?Id=",
+                addObjective : "@Url.Action("CreateObjective", "Home")",
+                addSubObjective : "@Url.Action("CreateSubObjective", "Home")?parentId=",
+                deleteObjective : "@Url.Action("Delete", "Objective")"
+            },
+            jsTreeSelector : ".tree-view",
+            FormSelector : "#CreateObjectiveForm",
+            objectiveDetailsWindow : ".objective-details"
+        };
 
         let selectedNode = {};
 
@@ -64,10 +66,15 @@
         });
         $("#addSubObjective").click(function(e) {
             e.preventDefault();
-            $(appSettings.objectiveDetailsWindow).load(appSettings.Urls.addSubObjective + selectedNode.id,
-                function() {
+            $.ajax({
+                url: appSettings.Urls.addSubObjective + selectedNode.id,
+                headers: { "objective-name" : selectedNode.text },
+                type: "GET",
+                success: function(result) {
+                    $(appSettings.objectiveDetailsWindow).html(result);
                     sendFormData(appSettings);
-                });
+                }
+            });
         });
         $("#deleteObjective").click(function(e) {
             e.preventDefault();

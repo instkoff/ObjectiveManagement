@@ -13,19 +13,20 @@ namespace ObjectiveManagement.Web.Controllers
     public class ObjectiveController : Controller
     {
         private readonly IObjectiveService _objectiveService;
-        private readonly ILogger<HomeController> _logger;
 
-        public ObjectiveController(IObjectiveService objectiveService, ILogger<HomeController> logger)
+        public ObjectiveController(IObjectiveService objectiveService)
         {
             _objectiveService = objectiveService;
-            _logger = logger;
         }
 
         [HttpPost]
         public async Task<ActionResult<MenuItemModel>> Create([FromBody]ObjectiveModel objectiveModel)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) 
+                throw new ValidationException("Form validation error");
             var result = await _objectiveService.Create(objectiveModel);
+            if (result == null) 
+                throw new ObjectiveNotFoundException("Cant create objective, parent not found.");
             return Ok(result);
 
         }
@@ -33,13 +34,11 @@ namespace ObjectiveManagement.Web.Controllers
         [HttpPut]
         public async Task<ActionResult> Update([FromBody]ObjectiveModel model)
         {
+            if (!ModelState.IsValid) 
+                throw new ValidationException("Form validation error");
             var result = await _objectiveService.Update(model);
-
             if (result == Guid.Empty)
-            {
-                return BadRequest("Objective not updated");
-            }
-
+                throw new ObjectiveNotFoundException("Objective not found for update.");
             return Ok(result);
         }
 
@@ -48,21 +47,20 @@ namespace ObjectiveManagement.Web.Controllers
         {
             var result = await _objectiveService.Delete(id);
             if (result) return Ok();
-            _logger.LogError("Ошибка при удалении задачи.");
-            throw new ObjectiveNotFoundException("Задача не найдена или у задачи есть подзадачи.");
+            throw new ObjectiveNotFoundException("Can't delete objective or objective has subobjectives");
         }
 
-        [HttpGet("get_all")]
-        public ActionResult<List<ObjectiveModel>> GetAllActiveObjectivesApi()
-        {
-            var objectiveModelList = _objectiveService.GetAllActive();
-
-            if (objectiveModelList == null)
-            {
-                return BadRequest("Objectives not found.");
-            }
-
-            return Ok(objectiveModelList);
-        }
+        // [HttpGet("get_all")]
+        // public ActionResult<List<ObjectiveModel>> GetAllActiveObjectivesApi()
+        // {
+        //     var objectiveModelList = _objectiveService.GetAllActive();
+        //
+        //     if (objectiveModelList == null)
+        //     {
+        //         return BadRequest("Objectives not found.");
+        //     }
+        //
+        //     return Ok(objectiveModelList);
+        // }
     }
 }
