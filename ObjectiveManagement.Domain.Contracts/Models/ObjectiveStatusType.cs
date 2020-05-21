@@ -1,9 +1,9 @@
 ﻿namespace ObjectiveManagement.Domain.Contracts.Models
 {
     /// <summary>
-    /// Статус задачи
+    /// Статусы задачи
     /// </summary>
-    public enum ObjectiveStatus
+    public enum ObjectiveStatusType
     {
         Assigned,
         InProgress,

@@ -3,7 +3,7 @@
 namespace ObjectiveManagement.DataAccess.Entities
 {
     /// <summary>
-    /// Свойства базовой сущности
+    /// Базовая сущность
     /// </summary>
     public class BaseEntity : IEntity
     {

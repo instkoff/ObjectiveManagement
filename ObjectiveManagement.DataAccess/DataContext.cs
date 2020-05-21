@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ObjectiveManagement.DataAccess.Entities;
 
@@ -18,7 +17,7 @@ namespace ObjectiveManagement.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            //Selfreference таблица
             modelBuilder.Entity<ObjectiveEntity>()
                 .HasOne(p => p.ParentObjective)
                 .WithMany(p => p.SubObjectives)
@@ -28,16 +27,6 @@ namespace ObjectiveManagement.DataAccess
         public async Task<int> SaveChangesAsync()
         {
             return await base.SaveChangesAsync();
-        }
-
-        public DbSet<T> DbSet<T>() where T : class
-        {
-            return Set<T>();
-        }
-
-        public new IQueryable<T> Query<T>() where T : class
-        {
-            return Set<T>();
         }
 
     }

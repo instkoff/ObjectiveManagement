@@ -66,7 +66,7 @@ function updateFormDataEvent(appSettings, selectedNode) {
                 completedTime: $("#CompletedTime").val(),
                 estimateTime: $("#EstimateTime").val(),
                 factTime: $("#FactTime").val(),
-                objectiveStatus: $("input[name='ObjectiveStatus']:checked").val(),
+                objectiveStatusType: $("input[name='ObjectiveStatusType']:checked").val(),
             });
             $.ajax({
                 url: form.attr("action"),

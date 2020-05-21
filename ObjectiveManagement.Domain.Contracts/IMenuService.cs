@@ -4,13 +4,21 @@ using ObjectiveManagement.Domain.Contracts.Models;
 
 namespace ObjectiveManagement.Domain.Contracts
 {
+    /// <summary>
+    /// Интерфейс сервиса обработки элементов меню
+    /// </summary>
     public interface IMenuService
     {
         /// <summary>
-        /// Интерфейс сервиса обработки элементов меню
+        /// Получение всех коренных элементов меню
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Список элементов меню</returns>
         List<MenuItemModel> GetTree();
+        /// <summary>
+        /// Получение подзадач конкретного элемента меню
+        /// </summary>
+        /// <param name="id">Идентификатор элемента</param>
+        /// <returns>Список элементов меню</returns>
         List<MenuItemModel> GetTree(Guid id);
     }
 }

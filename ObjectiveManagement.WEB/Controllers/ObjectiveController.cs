@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using ObjectiveManagement.Domain.Contracts;
 using ObjectiveManagement.Domain.Contracts.Exceptions;
 using ObjectiveManagement.Domain.Contracts.Models;
 
 namespace ObjectiveManagement.Web.Controllers
 {
+    /// <summary>
+    /// Контроллер взаимодействия с задачами
+    /// </summary>
     [Route("api/[controller]")]
     public class ObjectiveController : Controller
     {
@@ -18,6 +19,11 @@ namespace ObjectiveManagement.Web.Controllers
         {
             _objectiveService = objectiveService;
         }
+        /// <summary>
+        /// Создание задачи
+        /// </summary>
+        /// <param name="objectiveModel"></param>
+        /// <returns></returns>
 
         [HttpPost]
         public async Task<ActionResult<MenuItemModel>> Create([FromBody]ObjectiveModel objectiveModel)
@@ -30,7 +36,11 @@ namespace ObjectiveManagement.Web.Controllers
             return Ok(result);
 
         }
-
+        /// <summary>
+        /// Обновление задачи
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<ActionResult> Update([FromBody]ObjectiveModel model)
         {
@@ -41,7 +51,11 @@ namespace ObjectiveManagement.Web.Controllers
                 throw new ObjectiveNotFoundException("Objective not found for update.");
             return Ok(result);
         }
-
+        /// <summary>
+        /// Удаление задачи
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<ActionResult<bool>> Delete([FromBody]Guid id)
         {
@@ -50,17 +64,5 @@ namespace ObjectiveManagement.Web.Controllers
             throw new ObjectiveNotFoundException("Can't delete objective or objective has subobjectives");
         }
 
-        // [HttpGet("get_all")]
-        // public ActionResult<List<ObjectiveModel>> GetAllActiveObjectivesApi()
-        // {
-        //     var objectiveModelList = _objectiveService.GetAllActive();
-        //
-        //     if (objectiveModelList == null)
-        //     {
-        //         return BadRequest("Objectives not found.");
-        //     }
-        //
-        //     return Ok(objectiveModelList);
-        // }
     }
 }

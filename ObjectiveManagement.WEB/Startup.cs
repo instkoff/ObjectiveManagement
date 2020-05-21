@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ObjectiveManagement.Domain.Contracts;
 using ObjectiveManagement.Domain.Implementations;
+using ObjectiveManagement.Domain.Implementations.Profiles;
 using ObjectiveManagement.Web;
 
 namespace ObjectiveManagement.WEB
@@ -27,7 +28,7 @@ namespace ObjectiveManagement.WEB
             services.AddControllersWithViews()
                 .AddViewLocalization()
                 .AddNewtonsoftJson();
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(MappingProfile));
             services.AddSwagger();
             services.AddDatabase(Configuration);
             services.AddTransient<IObjectiveService, ObjectiveService>();

@@ -8,6 +8,9 @@ using ObjectiveManagement.Domain.Contracts.Exceptions;
 
 namespace ObjectiveManagement.Web
 {
+    /// <summary>
+    /// Промежуточное ПО для работы с исключениями
+    /// </summary>
     public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate _next;

@@ -4,8 +4,11 @@ using AutoMapper;
 using ObjectiveManagement.DataAccess.Entities;
 using ObjectiveManagement.Domain.Contracts.Models;
 
-namespace ObjectiveManagement.Web.Profiles
+namespace ObjectiveManagement.Domain.Implementations.Profiles
 {
+    /// <summary>
+    /// Профиль для маппинга сущностей
+    /// </summary>
     public class MappingProfile : Profile
     {
         public MappingProfile()
@@ -19,7 +22,7 @@ namespace ObjectiveManagement.Web.Profiles
                     {
                         foreach (var objective in dest.SubObjectives)
                         {
-                            if (objective.ObjectiveStatus != ObjectiveStatus.Completed)
+                            if (objective.ObjectiveStatus != ObjectiveStatusType.Completed)
                             {
                                 dest.CanComplete = false;
                                 return;
@@ -45,10 +48,10 @@ namespace ObjectiveManagement.Web.Profiles
                 {
                     dest.Icon = src.ObjectiveStatus switch
                     {
-                        ObjectiveStatus.Assigned => "/img/task_assigned.png",
-                        ObjectiveStatus.InProgress => "/img/task_in_progress.png",
-                        ObjectiveStatus.Suspended => "/img/task_suspended.png",
-                        ObjectiveStatus.Completed => "/img/task_completed.png",
+                        ObjectiveStatusType.Assigned => "/img/task_assigned.png",
+                        ObjectiveStatusType.InProgress => "/img/task_in_progress.png",
+                        ObjectiveStatusType.Suspended => "/img/task_suspended.png",
+                        ObjectiveStatusType.Completed => "/img/task_completed.png",
                         _ => "/img/task_assigned.png",
                     };
                     if (src.SubObjectives.Any()) 

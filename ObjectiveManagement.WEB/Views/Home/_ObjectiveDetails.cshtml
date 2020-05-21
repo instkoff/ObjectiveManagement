@@ -19,7 +19,7 @@
             <label asp-for="CreatedTime">@Localizer["CreatedTime"]</label>
             <input asp-for="CreatedTime" class="objective-details-input date-input" id="CreatedTime" value="@Model.CreatedTime" readonly />
         </span>
-        @if (Model.ObjectiveStatus == ObjectiveStatus.Completed)
+        @if (Model.ObjectiveStatus == ObjectiveStatusType.Completed)
         {
             <span class="date-time">
                 <label asp-for="CompletedTime">@Localizer["CompletedTime"]</label>
@@ -45,42 +45,42 @@
         <div class="status-radio">
             @switch (Model.ObjectiveStatus)
             {
-                case ObjectiveStatus.Assigned:
-                    <input type="radio" id="AssignedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Assigned" />
+                case ObjectiveStatusType.Assigned:
+                    <input type="radio" id="AssignedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatusType.Assigned" />
                     <label for="AssignedChoice">@Localizer["AssignedChoice"]</label>
-                    <input type="radio" id="InProgressChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.InProgress" />
+                    <input type="radio" id="InProgressChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatusType.InProgress" />
                     <label for="InProgressChoice">@Localizer["InProgressChoice"]</label>
                     break;
-                case ObjectiveStatus.InProgress:
-                    <input type="radio" id="InProgressChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.InProgress" />
+                case ObjectiveStatusType.InProgress:
+                    <input type="radio" id="InProgressChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatusType.InProgress" />
                     <label for="InProgressChoice">@Localizer["InProgressChoice"]</label>
-                    <input type="radio" id="SuspendedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Suspended" />
+                    <input type="radio" id="SuspendedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatusType.Suspended" />
                     <label for="SuspendedChoice">@Localizer["SuspendedChoice"]</label>
                     if (Model.CanComplete)
                     {
-                        <input type="radio" id="CompletedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Completed" />
+                        <input type="radio" id="CompletedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatusType.Completed" />
                         <label for="CompletedChoice">@Localizer["CompletedChoice"]</label>
                     }
                     else
                     {
-                        <input type="radio" id="CompletedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Completed" disabled />
+                        <input type="radio" id="CompletedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatusType.Completed" disabled />
                         <label for="CompletedChoice" title="Нельзя завершить пока есть не завершенные подзадачи" disabled>@Localizer["CompletedChoice"]</label>
                     }
                     break;
-                case ObjectiveStatus.Suspended:
-                    <input type="radio" id="InProgressChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.InProgress" />
+                case ObjectiveStatusType.Suspended:
+                    <input type="radio" id="InProgressChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatusType.InProgress" />
                     <label for="InProgressChoice">@Localizer["InProgressChoice"]</label>
-                    <input type="radio" id="SuspendedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Suspended" />
+                    <input type="radio" id="SuspendedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatusType.Suspended" />
                     <label for="SuspendedChoice">@Localizer["SuspendedChoice"]</label>
                     break;
-                case ObjectiveStatus.Completed:
-                    <input type="radio" id="CompletedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Completed" />
+                case ObjectiveStatusType.Completed:
+                    <input type="radio" id="CompletedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatusType.Completed" />
                     <label for="CompletedChoice">@Localizer["CompletedChoice"]</label>
                     break;
             }
         </div>
     </div>
-    @if (Model.ObjectiveStatus != ObjectiveStatus.Completed)
+    @if (Model.ObjectiveStatus != ObjectiveStatusType.Completed)
     {
         <div class="actions">
             <input class="submit-button" type="submit" id="UpdateButton" value="@Localizer["UpdateButton"]" />

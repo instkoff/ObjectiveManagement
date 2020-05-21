@@ -10,6 +10,9 @@ using ObjectiveManagement.Domain.Contracts.Models;
 
 namespace ObjectiveManagement.Domain.Implementations
 {
+    /// <summary>
+    /// Сервис для получения элементов меню
+    /// </summary>
     public class MenuService : IMenuService
     {
         private readonly IMapper _mapper;
@@ -22,7 +25,10 @@ namespace ObjectiveManagement.Domain.Implementations
             _dbRepository = dbRepository;
             _menuItems = new List<MenuItemModel>();
         }
-        
+        /// <summary>
+        /// Получаем корневые элементы
+        /// </summary>
+        /// <returns>Список элементов меню</returns>
         public List<MenuItemModel> GetTree()
         {
             var entitiesCollection = _dbRepository
@@ -33,7 +39,11 @@ namespace ObjectiveManagement.Domain.Implementations
             var menuItems = _mapper.Map<List<MenuItemModel>>(entitiesCollection);
             return menuItems;
         }
-
+        /// <summary>
+        /// Получаем список подзадач в меню
+        /// </summary>
+        /// <param name="id">Id родителя</param>
+        /// <returns>Список элементов меню</returns>
         public List<MenuItemModel> GetTree(Guid id)
         {
             var entitiesCollection = _dbRepository

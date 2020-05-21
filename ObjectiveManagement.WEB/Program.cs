@@ -11,6 +11,7 @@ namespace ObjectiveManagement.WEB
     {
         public static void Main(string[] args)
         {
+            //Настройка Serilog
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom
                 .Configuration(Configuration)

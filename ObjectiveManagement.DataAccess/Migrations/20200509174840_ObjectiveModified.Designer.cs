@@ -48,7 +48,7 @@ namespace ObjectiveManagement.DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ObjectiveStatus")
+                    b.Property<int>("ObjectiveStatusType")
                         .HasColumnType("int");
 
                     b.Property<Guid?>("ParentId")
