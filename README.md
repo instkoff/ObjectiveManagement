@@ -10,5 +10,5 @@
 Решение содержит четыре проекта:
 1. **ObjectiveManagement.DataAccess** - Библиотека доступа к данным.  
 2. **ObjectiveManagement.Domain.Contracts** - Абстракции необходимые для работы приложения, модели
-3. **ObjectiveManagement.Domain.Implementations** - Реализации абстракций, сервисы
-4. **ObjectiveManagement.Web** - Уровень представления
+3. **ObjectiveManagement.Domain.Implementations** - Реализации абстракций, сервисы, бизнес логика
+4. **ObjectiveManagement.Web** - Уровень представления, контроллеры
