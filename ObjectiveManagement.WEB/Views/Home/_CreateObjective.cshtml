@@ -1,4 +1,5 @@
 ﻿@inject IHtmlLocalizer<SharedResource> Localizer
+@using Microsoft.AspNetCore.Http
 @model ObjectiveModel
 
 @if (ViewBag.parentId == null)
@@ -11,8 +12,8 @@ else
 }
 <form class="content-form" id="CreateObjectiveForm" asp-action="Create" asp-controller="Objective">
     <div class="objective-details-item">
-        <input asp-for="Name" class="objective-details-input" id="Name" placeholder="@Localizer["ObjectiveName"]" required/>
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <input asp-for="Name" class="objective-details-input" id="Name" placeholder="@Localizer["ObjectiveName"]" required maxlength="50"/>
+        <span asp-validation-for="Name"></span>
         <input asp-for="ParentId" class="objective-details-input" id="ParentId" value="@ViewBag.parentId" hidden/>
     </div>
     <div class="objective-details-item">
@@ -40,3 +41,5 @@ else
         <input class="submit-button" type="submit" id="SaveButton" value="@Localizer["SaveButton"]"/>
     </div>
 </form>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

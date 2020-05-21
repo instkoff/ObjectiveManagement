@@ -2,6 +2,9 @@
 
 namespace ObjectiveManagement.DataAccess.Entities
 {
+    /// <summary>
+    /// Свойства базовой сущности
+    /// </summary>
     public class BaseEntity : IEntity
     {
         public Guid Id { get; set; }

@@ -24,10 +24,10 @@ namespace ObjectiveManagement.Web.Controllers
         }
 
         [HttpGet("create_sub_objective")]
-        public IActionResult CreateSubObjective([FromQuery]Guid parentId, [FromHeader(Name = "Objective-name")]string objectiveName)
+        public IActionResult CreateSubObjective([FromQuery]Guid parentId)
         {
             ViewBag.parentId = parentId;
-            ViewBag.objectiveName = objectiveName;
+            ViewBag.objectiveName = Request.Cookies["selectedNodeName"];
             return PartialView("_CreateObjective", new ObjectiveModel());
         }
 
@@ -41,11 +41,10 @@ namespace ObjectiveManagement.Web.Controllers
         public IActionResult GetObjective([FromQuery]Guid id)
         {
             var model = _objectiveService.Get(id);
-
             if (model == null)
                 throw new ObjectiveNotFoundException($"Objective not found by id {id}");
-
-                return PartialView("_ObjectiveDetails", model);
+            Response.Cookies.Append("selectedNodeName", model.Name);
+            return PartialView("_ObjectiveDetails", model);
         }
 
     }

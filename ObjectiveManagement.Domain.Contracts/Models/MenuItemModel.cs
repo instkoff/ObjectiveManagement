@@ -1,7 +1,7 @@
 ﻿namespace ObjectiveManagement.Domain.Contracts.Models
 {
     /// <summary>
-    /// Класс элемента меню
+    /// Класс элемента меню, необходим для работы jsTree
     /// </summary>
     public class MenuItemModel
     {

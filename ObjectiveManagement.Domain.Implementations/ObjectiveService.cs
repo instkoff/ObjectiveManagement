@@ -10,6 +10,9 @@ using ObjectiveManagement.Domain.Contracts.Models;
 
 namespace ObjectiveManagement.Domain.Implementations
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ObjectiveService : IObjectiveService
     {
         private readonly IDbRepository _dbRepository;

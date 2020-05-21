@@ -7,6 +7,9 @@ using ObjectiveManagement.DataAccess.Entities;
 
 namespace ObjectiveManagement.DataAccess
 {
+    /// <summary>
+    /// Репозиторий для работы с БД
+    /// </summary>
     public class EfRepository : IDbRepository
     {
         private readonly DataContext _context;

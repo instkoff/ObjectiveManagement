@@ -13,7 +13,6 @@
 
 @section scripts
 {
-    <partial name="_ValidationScriptsPartial" />
     <script src="~/lib/jstree/dist/jstree.js"></script>
     <script type="text/javascript">
         let appSettings = {
@@ -66,15 +65,10 @@
         });
         $("#addSubObjective").click(function(e) {
             e.preventDefault();
-            $.ajax({
-                url: appSettings.Urls.addSubObjective + selectedNode.id,
-                headers: { "objective-name" : selectedNode.text },
-                type: "GET",
-                success: function(result) {
-                    $(appSettings.objectiveDetailsWindow).html(result);
+            $(appSettings.objectiveDetailsWindow).load(appSettings.Urls.addSubObjective + selectedNode.id,
+                function() {
                     sendFormData(appSettings);
-                }
-            });
+                });
         });
         $("#deleteObjective").click(function(e) {
             e.preventDefault();

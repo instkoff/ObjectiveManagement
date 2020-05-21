@@ -5,12 +5,15 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ObjectiveManagement.Domain.Contracts.Models
 {
+    /// <summary>
+    /// Модель для работы с задачами
+    /// </summary>
     public class ObjectiveModel
     {
         [BindNever]
         public Guid Id { get; set; }
         [Required(ErrorMessage = "Укажите название задачи")]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = "Длина названия должна быть от 3 до 100 символов")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Длина названия должна быть от 3 до 100 символов")]
         public string Name { get; set; }
         public string Description { get; set; }
         [Required(ErrorMessage = "Заполните исполнителей")]

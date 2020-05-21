@@ -4,6 +4,9 @@ using ObjectiveManagement.Domain.Contracts.Models;
 
 namespace ObjectiveManagement.DataAccess.Entities
 {
+    /// <summary>
+    /// Класс описывающий задачу
+    /// </summary>
     public class ObjectiveEntity : BaseEntity
     {
         public string Name { get; set; }

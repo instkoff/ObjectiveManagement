@@ -4,13 +4,15 @@
 <div class="title">@Localizer["ObjectiveDetailsTitle"]</div>
 <form class="content-form" id="ObjectiveDetailsForm" asp-action="Update" asp-controller="Objective">
     <div class="objective-details-item">
-        <input asp-for="Name" class="objective-details-input" id="Name" placeholder="@Localizer["ObjectiveName"]" value="@Model.Name" />
+        <input asp-for="Name" class="objective-details-input" id="Name" placeholder="@Localizer["ObjectiveName"]" value="@Model.Name" required maxlength="50" />
+        <span asp-validation-for="Name"></span>
     </div>
     <div class="objective-details-item">
         <textarea asp-for="Description" class="objective-details-input" id="Description" placeholder="@Localizer["ObjectiveDescription"]" rows="8" maxlength="1000">@Model.Description</textarea>
     </div>
     <div class="objective-details-item">
         <textarea asp-for="Performers" class="objective-details-input" id="Performers" rows="5" maxlength="280" placeholder="@Localizer["ObjectivePerformers"]" required>@Model.Performers</textarea>
+        <span asp-validation-for="Performers"></span>
     </div>
     <div class="objective-details-item">
         <span class="date-time">
@@ -29,6 +31,7 @@
         <span class="input-number">
             <label for="EstimateTime">@Localizer["EstimateTime"]</label>
             <input asp-for="EstimateTime" class="objective-details-input" id="EstimateTime" type="number" value="@Model.EstimateTime" required />
+            <span asp-validation-for="EstimateTime"></span>
             <span class="inform-text">+@Model.TotalSubObjectivesEstimateTime @Localizer["AdditionalTime"]</span>
         </span>
         <span class="input-number">
@@ -38,11 +41,10 @@
         </span>
     </div>
     <div class="objective-details-item">
+        <div class="title">@Localizer["ObjectiveStatus"]</div>
         <div class="status-radio">
-            <div class="title">@Localizer["ObjectiveStatus"]</div>
             @switch (Model.ObjectiveStatus)
             {
-                //todo Спросить как можно переделать
                 case ObjectiveStatus.Assigned:
                     <input type="radio" id="AssignedChoice" asp-for="ObjectiveStatus" value="@ObjectiveStatus.Assigned" />
                     <label for="AssignedChoice">@Localizer["AssignedChoice"]</label>
@@ -85,3 +87,5 @@
         </div>
     }
 </form>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

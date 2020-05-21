@@ -7,6 +7,9 @@ namespace ObjectiveManagement.DataAccess
 {
     public class DataContext : DbContext
     {
+        /// <summary>
+        /// Контекст БД
+        /// </summary>
         public DbSet<ObjectiveEntity> Objectives { get; set; }
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
